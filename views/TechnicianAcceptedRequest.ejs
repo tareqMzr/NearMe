@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <link rel="stylesheet" href="../Style/Tech_req_route.css">
+  <link rel="stylesheet" href="../Style/HomeResponsive.css">
+  <style>
+    /* Loader Wrapper */
+ #loader-wrapper {
+   position: fixed;
+   top: 0;
+   left: 0;
+   width: 100%;
+   height: 100%;
+   z-index: 1034;
+   background-color: transparent;
+   visibility: visible;
+   transition: all 2s 4s ease-out;
+ }
+
+ /* Loader */
+ #loader {
+   display: block;
+   position: relative;
+   left: 50%;
+   top: 50%;
+   width: 150px;
+   height: 150px;
+   margin: -75px 0 0 -75px;
+   border-radius: 50%;
+   border: 8px solid transparent;
+   border-top-color: #06b2fa;
+   animation: spin 1s linear infinite;
+   z-index: 1034;
+ }
+
+ #loader:before,
+ #loader:after {
+   content: "";
+   position: absolute;
+   border-radius: 50%;
+   border: 8px solid transparent;
+ }
+
+ #loader:before {
+   top: 5px;
+   left: 5px;
+   right: 5px;
+   bottom: 5px;
+   border-top-color: #2e2e2e;
+   animation: spin 2s linear infinite;
+ }
+
+ #loader:after {
+   top: 15px;
+   left: 15px;
+   right: 15px;
+   bottom: 15px;
+   border-top-color: #0897f3;
+   animation: spin 1.5s linear infinite;
+ }
+
+ @keyframes spin {
+   0% {
+     transform: rotate(0deg);
+   }
+   100% {
+     transform: rotate(360deg);
+   }
+ }
+
+ /* Loader Sections */
+ .loader-section {
+   position: fixed;
+   top: 0;
+   width: 50%;
+   height: 100%;
+   background: transparent;
+   z-index: 1032;
+   transition: all 0.7s 0.7s cubic-bezier(0.645, 0.045, 0.355, 1);
+ }
+
+ .loader-section.section-left {
+   left: 0;
+ }
+
+ .loader-section.section-right {
+   right: 0;
+ }
+
+ /* Loader Wrapper Transition on Loaded */
+ .loaded #loader-wrapper {
+   visibility: hidden;
+   transform: translateY(-100%);
+   transition: all 0.7s 1s ease-out;
+ }
+
+ /* Loader Transition on Loaded */
+ .loaded #loader {
+   opacity: 0;
+   transition: all 1s ease-out;
+ }
+
+ /* Loader Sections Transition on Loaded */
+ .loaded .loader-section.section-left {
+   transform: translateX(-100%);
+ }
+
+ .loaded .loader-section.section-right {
+   transform: translateX(100%);
+ }
+ </style>  
+  <title>Technician Route</title>
+ 
+</head>
+<body>
+  <input type="hidden" name="workshopdata" id="workshopdata" value="<%=JSON.stringify(workshop,null,2)%>">
+  <input type="hidden" name="userdata" id="userdata" value="<%=JSON.stringify(driver,null,2)%>">
+  <input type="hidden" name="falgdata" id="falgdata" value="<%=flag%>">
+<br><br>
+<br><br>
+<br><br>
+ <!-- Screen lazy loding  -->
+ <div id="loader-wrapper">
+  <div id="loader"></div>
+  <div class="loader-section section-left"></div>
+  <div class="loader-section section-right"></div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+<script>
+// Screen Loader
+document.addEventListener('DOMContentLoaded', function() {
+  document.body.classList.add('loaded');
+});  
+</script>
+
+
+      <!-- Technicina Header Inside -->
+      <%- include('partials/TechnicinaHeaderInside.ejs',{user:workshop}); -%>
+
+  <div id="map"></div>
+  <% if (flag) { %>
+    <div class="Loading-Screen" id="Loading-Screen">
+      <div class="container">
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+      </div>
+      <p class="loading-screen-text">Waiting For Driver To Accept Your Service</p>
+      <button style="margin-top: 50px;" class="button_common3" onclick="showCancelModal()" type="button">
+        <h1 class="h1q">Cancel!</h1>
+      </button>
+       <!-- The Cancel Modal -->
+  <div id="cancelModal" class="modal">
+    <div class="modal-content">
+      <span class="close" onclick="closeCancelModal()">&times;</span>
+      <p>Are You Sure You Want To Cancel The Request?</p>
+      <div class="Button_center"> 
+        <form action="/Technician/CancelRequest" method="post">
+          <button class="modal-button yes" type="submit" name="form3Submit">Yes</button>
+        </form>
+        <button class="modal-button no" onclick="closeCancelModal()">No</button>
+      </div>
+    </div>
+  </div>
+  </div>    
+  <% } %>
+
+  <button class="icon-button" onclick="centerMapOnDriver()" type="button">
+    <img  class="Icon" src="../Assets\Icons\Maps-Center.png">
+  </button>
+  <div class="Div_center">
+   
+
+    <div class="div-info">
+      <% if (flag) { %>
+        <div class="background-blur-data">
+          <h5 class="font-weight-bold" style="margin-bottom: 8px;text-align: left;">
+            Request id: <span class="font-weight-bold" id="Requset_id">#<%= driver.request.request_id %></span>
+          </h5> 
+          <h5 class="font-weight-bold" style="margin-bottom: 8px;text-align: left;">
+            Driver Name: <span class="font-weight-bold" id="Driver_Name"><%= driver.info.username %></span>
+          </h5>
+          <h5 class="font-weight-bold" style="margin-bottom: 8px;text-align: left;">
+            Driver Phonenumber: <span class="font-weight-bold" id="Driver_phonenumber"><%= driver.info.phone_number %></span>
+          </h5>
+          <h5 class="font-weight-bold" style="margin-bottom: 8px;text-align: left;">
+            Distance: <span class="font-weight-bold" id="request_duration"><%= distance.distance.text %></span>
+          </h5>
+          <h5 class="font-weight-bold" style="margin-bottom: 8px;text-align: left;">
+            Estimated Time: <span class="font-weight-bold" id="request_duration"><%= distance.duration.text %></span>
+          </h5> 
+          <h5 class="font-weight-bold" style="margin-bottom: 8px;text-align: left;">
+            Price: <span class="font-weight-bold" id="request_duration"><%=  %></span>
+          </h5> 
+        </div>
+        <% } %>
+
+      <% if (!flag) { %>
+        <div>
+          <h5 style="margin-bottom: 8px;text-align: left;">
+            Request ID: <span class="font-weight-bold" id="Requset_id">#<%= driver.request.request_id %></span>
+          </h5> 
+          <h5 style="margin-bottom: 8px; text-align: left;">
+            Driver Name: <span class="font-weight-bold" id="Driver_Name"><%= driver.info.username %></span>
+          </h5>
+      
+          <h5 style="margin-bottom: 8px; text-align: left;">
+            Driver Phone Number: <span class="font-weight-bold" id="Driver_phonenumber"><%= driver.info.phone_number %></span>
+          </h5>
+          <h5 style="margin-bottom: 8px; text-align: left;">
+            Distance: <span class="font-weight-bold" id="request_duration"><%= distance.distance.text %></span>
+          </h5>
+          <h5 style="margin-bottom: 8px; text-align:left;">
+            Estimated Time: <span class="font-weight-bold" id="request_duration"><%= distance.duration.text %></span>
+          </h5>
+          <h5 class="font-weight-bold" style="margin-bottom: 8px;text-align: left;">
+            Price: <span class="font-weight-bold" id="request_duration"><%= driver.request.price %> JOD</span>
+          </h5> 
+        </div>
+      <% } %>
+    
+      <!-- blur before pending accept -->
+    <% if (flag) { %>
+      <div class="background-blur-data">
+        <% if (!arrived) { %>
+            <button class="button_common" onclick="showArrivedModal()" type="submit">
+              <h1 class="h1q">Arrived</h1>
+            </button>
+        <% } %>
+        <% if (arrived) { %>
+          <button class="button_common" onclick="showDoneModal()" type="button">
+            <h1 class="h1q">Done</h1>
+          </button>
+        <% } %>
+        <% if (!arrived) { %>
+          <button class="button_common2" onclick="showCancelModal()" type="button">
+            <h1 class="h1q">Cancel</h1>
+          </button>
+        <% } %>
+      </div>
+    <% } %>
+    <!-- show after pending accept-->
+    <% if (!flag) { %>
+      <% if (!arrived) { %>
+          <button class="button_common" onclick="showArrivedModal()" type="submit">
+            <h1 class="h1q">Arrived</h1>
+          </button>
+      <% } %>
+      <% if (arrived) { %>
+        <button class="button_common" onclick="showDoneModal()" type="button">
+          <h1 class="h1q">Done</h1>
+        </button>
+      <% } %>
+      <% if (!arrived) { %>
+        <button class="button_common2" onclick="showCancelModal()" type="button">
+          <h1 class="h1q">Cancel</h1>
+        </button>
+      <% } %>
+    <% } %>
+
+  </div>
+  </div>
+
+  <!-- The Cancel Modal -->
+  <div id="cancelModal" class="modal">
+    <div class="modal-content">
+      <span class="close" onclick="closeCancelModal()">&times;</span>
+      <p>Are You Sure You Want To Cancel The Request?<br><br> <span style="font-size: medium; color: red;">Canceling the requset will effect on your workshop rating</span></p>
+      <div class="Button_center">
+        <form action="/Technician/CancelRequest" method="post">
+          <button class="modal-button yes" type="submit" name="form3Submit">Yes</button>
+        </form>
+        <button class="modal-button no" onclick="closeCancelModal()">No</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- The Done Modal -->
+  <div id="doneModal" class="modal">
+    <div class="modal-content">
+      <span class="close" onclick="closeDoneModal()">&times;</span>
+      <p style="font-size: x-large;">Completed the service?</p>
+      <div class="Button_center">
+        <form action="/Technician/RequestCompleted" method="post">
+          <input type="hidden" name="driverinfo" id="userdata" value="<%=JSON.stringify(driver,null,2)%>">
+          <button class="modal-button yes" type="submit" name="form3Submit">Yes</button>
+        </form>
+        <button class="modal-button no" onclick="closeDoneModal()">No</button>
+      </div>
+    </div>
+  </div>
+  <!--The Arrived Modal-->
+  <div id="arrivedModal" class="modal">
+    <div class="modal-content">
+      <span class="close" onclick="closeArrivedModal()">&times;</span>
+      <p style="font-size: x-large;">Arrive to the location?</p>
+      <br>
+      <span style="font-size: medium;color: red;">Note: Before clicking yes make sure that the driver is there, any procedure after that you wont be able to cancel the Service</span>
+      <div class="Button_center">
+        <form action="/Technician/Arrived" method="post">
+          <input type="hidden" name="driverinfo" id="userdata" value="<%=JSON.stringify(driver,null,2)%>">
+          <button class="modal-button yes" onclick="Arrived()" type="submit">
+            <h1 class="h1q">Yes</h1>
+          </button>
+        </form>
+        <button class="modal-button no" onclick="closeArrivedModal()">No</button>
+      </div>
+    </div>
+  </div>
+
+ 
+
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script src="/socket.io/socket.io.js"></script>
+
+  <script>
+      
+         //profile dropdown 
+         function toggleDropdown() {
+      var dropdown = document.getElementById("dropdownContent");
+      dropdown.style.display === "none" ? dropdown.style.display = "block" : dropdown.style.display = "none";
+    }
+
+    document.addEventListener("click", function(event) {
+     var dropdown = document.getElementById("dropdownContent");
+     var profilePicture = document.querySelector(".profile-picture");
+      if (!profilePicture.contains(event.target) && !dropdown.contains(event.target)) {
+           dropdown.style.display = "none";
+    }
+    });
+
+    function toggleDropdown1() {
+      var dropdown = document.getElementById("dropdownContent1");
+      dropdown.style.display === "none" ? dropdown.style.display = "block" : dropdown.style.display = "none";
+    }
+
+    document.addEventListener("click", function(event) {
+     var dropdown = document.getElementById("dropdownContent1");
+     var profilePicture = document.querySelector(".profile-picture1");
+      if (!profilePicture.contains(event.target) && !dropdown.contains(event.target)) {
+           dropdown.style.display = "none";
+    }
+    });
+    //profile dropdown end 
+        //sidebar
+        function showSidebar(){
+          const sidebar = document.querySelector('.sidebar')
+          sidebar.style.display = 'flex'
+        }
+        function hideSidebar(){
+          const sidebar = document.querySelector('.sidebar')
+          sidebar.style.display = 'none'
+        }
+        //end sidebar
+        
+
+      const falgdata=document.getElementById("falgdata").value;
+      console.log(falgdata);
+      const workshopValue = document.getElementById("workshopdata").value;
+      const workshopArray = JSON.parse(workshopValue);
+      console.log(workshopArray);
+      var socket = io();
+      socket.on(`Refresh-${workshopArray.user_id}`, (message) => {
+        //alert(message)
+        Swal.fire({
+        icon: "error",
+        title: message,
+        buttons:true,
+        dangerMode: true,
+      })
+      .then((IsOkay) =>{
+        if(IsOkay) {
+          window.location.href = '/Technician/Home';
+        }
+      });
+      });
+      socket.on(`Driver-Accept-${workshopArray.user_id}`, (message) => {
+        window.location.href="/Technician/AcceptedRequest"
+      });
+    
+    // Arrived button
+    document.addEventListener("DOMContentLoaded", function() {
+
+    // const userdataValue = document.getElementById("userdata").value;
+    // const userArray=JSON.parse(userdataValue);
+    // // Display Requset_Id on the screen
+    // var Requset_id = document.getElementById('Requset_id');
+    // var Driver_Name = document.getElementById('Driver_Name');
+    // var request_duration = document.getElementById('request_duration');
+    // var Driver_phonenumber =document.getElementById('Driver_phonenumber');
+    // //var request_price = document.getElementById('request_price');
+    // Requset_id.innerText = JSON.stringify(userArray.request.request_id, null, 2);
+    // Driver_Name.innerText = JSON.stringify(userArray.info.username, null, 2);
+    // Driver_phonenumber.innerText = JSON.stringify(userArray.info.phone_number, null, 2);
+    // request_duration.innerText = JSON.stringify(userArray.requset.duration.text, null, 2);
+    
+    //request_price.innerText = JSON.stringify(workshopArray, null, 2);
+    
+ });
+
+    function Arrived() {
+      var button = document.querySelector('.Arrived_btn');
+      button.classList.toggle('checked');
+    }
+
+    // Show the Cancel modal
+    function showCancelModal() {
+      document.getElementById('cancelModal').style.display = "block";
+    }
+
+    // Close the Cancel modal
+    function closeCancelModal() {
+      document.getElementById('cancelModal').style.display = "none";
+    }
+
+    // Show the Done modal
+    function showDoneModal() {
+      document.getElementById('doneModal').style.display = "block";
+    }
+    function showArrivedModal() {
+      document.getElementById('arrivedModal').style.display = "block";
+    }
+    function closeArrivedModal(){
+      document.getElementById('arrivedModal').style.display = "none";
+    }
+    // Close the Done modal
+    function closeDoneModal() {
+      document.getElementById('doneModal').style.display = "none";
+    }
+
+    // Center the map on the driver's location
+    function centerMapOnDriver() {
+      map.setCenter(driverLocation);
+    }
+
+    // Initialize the map
+    function initMap() {
+      const workshopValue = document.getElementById("workshopdata").value;
+      const userdataValue = document.getElementById("userdata").value;
+      const workshopArray = JSON.parse(workshopValue);
+      const userArray = JSON.parse(userdataValue);
+      var driverLocation = { lat: userArray.request.location.x, lng: userArray.request.location.y };
+      var userLocation = { lat: workshopArray.location.x, lng: workshopArray.location.y };
+
+      var map = new google.maps.Map(document.getElementById('map'), {
+        zoom: 13,
+        center: userLocation,
+        disableDefaultUI: true
+      });
+
+      var driverMarker = new google.maps.Marker({
+        position: driverLocation,
+        map: map,
+        icon: '../Assets/Icons/Driver.png', // Replace with the path to your driver icon
+        title: 'Driver'
+      });
+
+      var userMarker = new google.maps.Marker({
+        position: userLocation,
+        map: map,
+        icon: {
+        url: '../Assets/Icons/workshop-icon.png', // Replace with the path to your user icon
+        scaledSize: new google.maps.Size(40, 60) // Change the size as per your requirement
+        }, // Replace with the path to your user icon
+        title: 'User'
+      });
+
+      var directionsService = new google.maps.DirectionsService();
+      var directionsRenderer = new google.maps.DirectionsRenderer({
+        map: map,
+        suppressMarkers: true, // Prevents the default markers for start and end points
+        polylineOptions: {
+        strokeColor: 'blue', // Customize the color of the route polyline
+        strokeOpacity: 0.7,   // Set opacity for the route polyline
+        strokeWeight: 5       // Set the thickness of the route polyline
+      }
+      });
+
+      var request = {
+        origin: driverLocation,
+        destination: userLocation,
+        travelMode: 'DRIVING'
+      };
+
+      directionsService.route(request, function(result, status) {
+        if (status == 'OK') {
+          directionsRenderer.setDirections(result);
+        }
+      });
+
+      // Center the map on the driver's location
+      window.centerMapOnDriver = function() {
+        var zoomLevel = 18; // Adjust the zoom level as per your requirement
+        map.setZoom(zoomLevel);
+        map.panTo(userLocation);
+      };
+    }
+  </script>
+<script src="https://maps.googleapis.com/maps/api/js?key=yourAPIKEY&callback=initMap&v=weekly"defer></script>
+</body>
+</html>

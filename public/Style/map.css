@@ -1,0 +1,481 @@
+/**
+ * @license
+ * Copyright 2019 Google LLC. All Rights Reserved.
+ * SPDX-License-Identifier: Apache-2.0
+ */
+/* 
+ * Always set the map height explicitly to define the size of the div element
+ * that contains the map. 
+ */
+ #map {
+    height: 100%;
+  }
+  
+  /* 
+   * Optional: Makes the sample page fill the window. 
+   */
+  html,body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+  }
+  
+  input[type=text] {
+    background-color: #fff;
+    border: 0;
+    border-radius: 2px;
+    box-shadow: 0 1px 4px -1px rgba(0, 0, 0, 0.3);
+    margin-top: 120px;
+    padding: 0 0.5em;
+    font: 400 18px Roboto, Arial, sans-serif;
+    overflow: hidden;
+    line-height: 40px;
+    margin-right: 0;
+    min-width: 25%;
+    margin-left: 15px;
+  }
+  
+  input[type=button] {
+    background-color: #fff;
+    border: 0;
+    border-radius: 2px;
+    box-shadow: 0 1px 4px -1px rgba(0, 0, 0, 0.3);
+    margin-top: 120px;
+    padding: 0 0.5em;
+    font: 400 18px Roboto, Arial, sans-serif;
+    overflow: hidden;
+    height: 40px;
+    cursor: pointer;
+    margin-left: 15px;
+  }
+  input[type=button]:hover {
+    background: rgb(235, 235, 235);
+  }
+  input[type=button].button-primary {
+    background-color: #1a73e8;
+    color: white;
+  }
+  input[type=button].button-primary:hover {
+    background-color: #1765cc;
+  }
+  input[type=button].button-secondary {
+    background-color: white;
+    color: #1a73e8;
+  }
+  input[type=button].button-secondary:hover {
+    background-color: #d2e3fc;
+  }
+  
+  #response-container {
+    background-color: #fff;
+    border: 0;
+    border-radius: 2px;
+    box-shadow: 0 1px 4px -1px rgba(0, 0, 0, 0.3);
+    margin: 10px;
+    padding: 0 0.5em;
+    font: 400 18px Roboto, Arial, sans-serif;
+    overflow: hidden;
+    overflow: auto;
+    max-height: 50%;
+    max-width: 90%;
+    background-color: rgba(255, 255, 255, 0.95);
+    font-size: small;
+  }
+  
+  #instructions {
+    background-color: #fff;
+    border: 0;
+    border-radius: 2px;
+    box-shadow: 0 1px 4px -1px rgba(0, 0, 0, 0.3);
+    margin: 10px;
+    padding: 0 0.5em;
+    font: 400 18px Roboto, Arial, sans-serif;
+    overflow: hidden;
+    padding: 1rem;
+    font-size: medium;
+  }
+  
+  /* navbar */
+.logo-transparent{
+  width: 180px;
+  height: auto;
+  transition: all 0.4s;
+}
+nav{
+  border-radius: 25px;
+  margin: 20px 0px 0px;
+  z-index: 99;
+  position:fixed;
+  top: 0;
+  right: 0;
+  left: 0;
+  transition: all 0.4s;
+  background-color: rgba(1, 1, 1, 0.75);
+  backdrop-filter: blur(15px);
+}
+nav ul{
+  width: 100%;
+  list-style: none;
+  display: flex;
+  justify-self: flex-end;
+  align-items: center;
+}
+nav li{
+  margin-top: 10px;
+  padding: 0px 8px;
+  height: 60px;
+}
+nav li a{
+  font-size: 20px;
+  height: 100%;
+  padding: 0px 25px;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  color: white;
+  font-family: Arial;
+  transition: all 0.4s;
+}
+nav.scrolled li a{
+  color: white;
+}
+nav li a:hover {
+  color:white ;
+  background-color: #0897f3;
+  fill:#0c3e68 ;
+  border-radius: 15px;
+}
+nav li:first-child{
+  margin-right: auto;
+}
+.btn-tech{
+  padding: 10px 25px;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  color: 	#0897f3;
+  font-family: Arial;
+  transition: all 0.4s;
+  font-weight: bold;
+}
+.btn-tech:hover{
+  background-color: #0897f3;
+  color: white;
+  border-radius: 15px;
+}   
+.Avatar-icon{
+  fill-opacity: white;
+  width: 80px;
+  height: auto;
+}
+.sidebar{
+  z-index: 9999;
+  position:fixed;
+  top: 0;
+  right: 0;
+  height: 100vh;
+  width: 250px;
+  background-color:  #326ea0fd;
+  backdrop-filter: blur(999px);
+  box-shadow: -10px 0 10px rgba(0,0,0,0.1);
+  list-style: none;
+  display: none;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+}
+nav a svg{
+  fill: black;
+  transition: all 0.3s;
+}
+
+.logo{
+  padding: 20px;
+  text-decoration: none;
+  color: white !important;
+  font-family: Arial;
+  transition: all 0.4s;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  margin-left: 200px;
+  font-size: 20px;
+}
+.logo:hover{
+  color:#0e5086 ;
+  background-color: #FFC700;
+  border-radius: 25px;
+} 
+.logo1{
+  pointer-events: none; 
+  margin-top: 10px;
+  width: 40px;
+  height: 40px;
+} 
+.sidebar li{
+  width: 100%;
+}
+.sidebar a{
+  width: 100%;
+}
+.menu-button{
+  display: none;
+}
+/* navbar end */
+/* Style the Avatar dropdown button */
+.nav-user{
+  height: 60px;
+}
+.ul-User{
+  position: relative;
+  top: 0;
+  padding:  0 0 10px;
+  height: 30px;
+}
+.profile-container{
+  margin: 0 50px 25px;
+  height: 20px;
+}
+.flex-ava{
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: flex-end;
+  gap: 2px;
+}
+.Username{
+font-weight: 100;
+font-size: 22px;
+cursor:text;
+font-family: Arial	;
+color: white;
+cursor: pointer;
+margin: 0px 10px 5px 10px;
+}
+.Username1{
+  font-weight: 100;
+font-size: 20px;
+position: absolute;
+right: 30px;
+top: 70px;
+font-family: Arial;
+color: white;
+cursor: pointer;
+margin: 20px 30px 0px 0px ;
+}
+.Username2{
+font-size: 18px;
+position: absolute;
+right: 30px;
+top: 100px;
+font-family: Arial	;
+color: white;
+cursor: pointer;
+margin: 0px 10px;
+}
+.profile-picture {
+  cursor: pointer;
+}
+.profile-picture:hover {
+cursor: pointer;
+background-color: #0897f3;
+border-radius: 20px;
+}
+.avatar {
+margin: 0;
+width: 40px;
+height: auto;
+border-radius: 50%;
+}
+.dropdown-content {
+display: none;
+width: auto;
+height: auto;
+position: absolute;
+top: 65px;
+right: 60px;
+background-color: #0897f3;
+border-radius: 25% 0%;
+box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+z-index: 999;
+transition: all 0.4s;
+}
+
+.dropdown-content a {
+  color: white;
+  padding: 8px 12px;
+  margin: 5px 5px;
+  border-radius: 20px;
+  text-decoration: none;
+  display: block;
+  text-align: center;
+  
+}
+.dropdown-content a:hover {
+  background-color: #f1f1f1;
+  border-radius: 20px;
+  color: #0897f3;
+}
+/* User CSS For the sidebar*/
+.nav-user1{
+  height: 60px;
+}
+.ul-User1{
+  position: relative;
+  top: 0;
+  padding:  0 0 10px;
+  height: 30px;
+}
+.profile-container1{
+  margin: 0 20px 20px;
+  height: 20px;
+}
+.profile-picture1 {
+  padding: 0;
+  margin: 0;
+  cursor: pointer;
+  width: auto;
+}
+
+.profile-picture1:hover {
+cursor: pointer;
+background-color: #0897f3;
+padding: 2px;
+border-radius: 20px;
+}
+
+.avatar1 {
+width: 70px;
+height: auto;
+border-radius: 50%;
+}
+.sidebar-avatarCon{
+  padding: 0px;
+}
+
+.dropdown-content1 {
+  display: none;
+  position: absolute;
+  margin: 0px 10px ;
+  top: 65px;
+  right: 245px;
+  border-radius: 25% 0%;
+  background-color: #0897f3;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 999;
+  transition: all 0.4s;
+}
+
+
+.dropdown-content1 a {
+  color: white;
+  width: auto;
+  height: auto;
+  padding: 8px 12px;
+  margin: 5px 7px ;
+  border-radius: 20px;
+  text-decoration: none;
+  display: block;
+  text-align: center;
+}
+
+.dropdown-content1 a:hover {
+  background-color: #f1f1f1;
+  border-radius: 20px;
+  color: #0897f3;
+}
+/* end username profile  */
+
+@media(min-width: 1371px){
+  .hideOnMobile{
+    display: none;
+  }
+  .menu-button{
+    display: block;
+  }
+  .backgroundTop{
+      width: 100%;
+  }
+  .imgtop{
+      width: 100%;
+  }
+  .blackbackground{
+      width: 100%;
+  }
+  html{
+      width: 100%;
+  }
+  footer{
+      position: relative;
+      bottom: 0;
+  }
+}
+
+@media(max-width: 1370px){
+  .hideOnMobile{
+    display: none;
+  }
+  .menu-button{
+    display: block;
+  }
+  .backgroundTop{
+      width: 1370px;
+      height: 100vh;
+  }
+  .imgtop{
+      width: 1370px;
+      height: 100vh;
+  }
+  .blackbackground{
+      width: 1370px;
+      height: 100vh;
+  }
+  html{
+      width:1370px;
+  }
+  .containerborder{
+      height: auto;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      flex-wrap: wrap;
+      padding: 0px;
+      margin-bottom: 50vh;
+      margin: 0px;
+  }
+  div.container{
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      flex-wrap: wrap;
+  }
+  .card{
+      height: 350px;
+      width: 540px;
+  }
+}
+
+
+@media(max-width: 400px){
+  .sidebar{
+    width: 100%;
+  }
+}
+
+@media(min-width: 1370px){
+  .hideOnMobile{
+    display: flex;
+  }
+  .menu-button{
+    display: none;
+  }
+  .sidebar{
+      display: none;
+      position: fixed;
+      right: -100%;
+      transition:  1s ease-out;
+  }
+}
+/* Header  CSS End*/

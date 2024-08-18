@@ -1,0 +1,44 @@
+<nav>
+  <ul class="sidebar">
+     <li onclick=hideSidebar()><a href="#"><svg xmlns="http://www.w3.org/2000/svg" height="32" 
+       viewBox="0 96 960 960" width="32"><path d="m249 849-42-42 231-231-231-231 42-42 231 231 
+       231-231 42 42-231 231 231 231-42 42-231-231-231 231Z"/></svg></a></li>
+     <li class="sidebar-avatarCon">
+       <div class="profile-container1">
+         <div class="profile-picture1" onclick="toggleDropdown1()">
+           <img src="../Assets/Icons/Avatar3.png" alt="Avatar" class="avatar">
+           <h4 class="Username1"><%= user.username %> </h4>
+         </div>
+         <div class="dropdown-content1" id="dropdownContent1">
+           <a href="/Driver/Profile">Profile</a>
+           <a href="/Driver/Logout">Logout</a>
+         </div>
+       </div>     
+     </li>
+     <li><a href="#Services">Services</a></li>
+     <li><a href="/Driver/ContactUs">Contact Us</a></li>
+     <li style="margin-right: auto;"><a href="/Driver/AboutUs">About us</a></li>
+  </ul> 
+
+   <label id="overly "for="showSidebar"></label>
+  
+  <ul class="ul-User">
+     <li><a href="/"><img src="../Assets/Logo/White.png" class="logo-transparent"></a></li>
+     <li class="hideOnMobile"><a href="#Services">Services</a></li>
+     <li class="hideOnMobile"><a href="/Driver/ContactUs" role="button">Contact Us</a></li>
+     <li class="hideOnMobile" style="margin-right: auto;"><a href="/Driver/AboutUs">About us</a></li>
+     <li class="hideOnMobile" style="padding: 0px; height: auto;">
+       <div class="profile-container">
+         <div class="profile-picture flex-ava" onclick="toggleDropdown()">
+           <h4 class="Username"><%= user.username %> </h4>
+           <img src="../Assets/Icons/Avatar3.png" alt="Avatar" class="avatar">
+         </div>
+         <div class="dropdown-content" id="dropdownContent">
+           <a href="/Driver/Profile">Profile</a>
+           <a href="/Driver/Logout">Logout</a>
+         </div>
+       </div>
+      </li>
+     <li class="menu-button" onclick=showSidebar()><a href="#"><svg xmlns="http://www.w3.org/2000/svg" height="26" viewBox="0 96 960 960" width="26"><path d="M120 816v-60h720v60H120Zm0-210v-60h720v60H120Zm0-210v-60h720v60H120Z"/></svg></a></li>
+  </ul> 
+ </nav>

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NearME</title>
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="Style/Login.css">
+    <link rel="stylesheet" href="Style/Log-SignResponsive.css">
+</head>
+<body>
+    <div class="login">
+        <form action="/AdminLogin" method="post">
+            <a href="/"><img src="Assets/Logo/Blue1.png" class="logo-transparent-login"></a>
+            <h1>Log in as an Admin</h1>
+            <label class="lable-text"><i class='bx bx-envelope'></i> E-mail</label>
+            <input style="margin-bottom: 13px;" class="input-Text" type="email" id="floatingInput" placeholder="name@example.com" name="Email" required>
+            
+            
+            <label class="lable-text"><i class='bx bx-lock-alt'></i> Password</label>
+            <div class="pass-div">
+                <input class="input-Text-pass" type="password" id="password" placeholder="Password" name="Password" required>
+                <i class='bx bx-hide toggle-password' id="togglePassword"></i>
+            </div>
+            <div class="remeber-forget">
+                <label>
+                    <input type="checkbox" value="remember-me" id="flexCheckDefault" placeholder="Password" name="Rm">
+                Remember Me</label>
+                <a class="Froget-password" href="#">Forget password?</a>
+            </div>
+            <% if (typeof er !== 'undefined' && er !== null && er !== '') { %>
+                <p class="Error-text"><%= er %></p>
+            <% } %>
+            <button type="submit">Log in</button>
+            <div class = "register-link">
+                <p>Don't have an account?
+                <a href="/AdminRegister">Register</a></p>
+            </div>
+        </form>
+    </div>
+    <script>
+         //hide or show password
+         document.getElementById('togglePassword').addEventListener('click', function (e) {
+            const password = document.getElementById('password');
+            const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
+            password.setAttribute('type', type);
+            this.classList.toggle('bx-show');
+            this.classList.toggle('bx-hide');
+        });
+    </script>
+</body>
+</html>

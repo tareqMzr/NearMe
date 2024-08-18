@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Working</title>
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="../Style/TechnicianRequests.css">
+    <link rel="stylesheet" href="../Style/HomeResponsive.css">
+    <style>
+        /* Loader Wrapper */
+     #loader-wrapper {
+       position: fixed;
+       top: 0;
+       left: 0;
+       width: 100%;
+       height: 100%;
+       z-index: 1034;
+       background-color: transparent;
+       visibility: visible;
+       transition: all 2s 4s ease-out;
+     }
+  
+     /* Loader */
+     #loader {
+       display: block;
+       position: relative;
+       left: 50%;
+       top: 50%;
+       width: 150px;
+       height: 150px;
+       margin: -75px 0 0 -75px;
+       border-radius: 50%;
+       border: 3px solid transparent;
+       border-top-color: #06b2fa;
+       animation: spin 1s linear infinite;
+       z-index: 1034;
+     }
+  
+     #loader:before,
+     #loader:after {
+       content: "";
+       position: absolute;
+       border-radius: 50%;
+       border: 3px solid transparent;
+     }
+  
+     #loader:before {
+       top: 5px;
+       left: 5px;
+       right: 5px;
+       bottom: 5px;
+       border-top-color: #fff;
+       animation: spin 2s linear infinite;
+     }
+  
+     #loader:after {
+       top: 15px;
+       left: 15px;
+       right: 15px;
+       bottom: 15px;
+       border-top-color: #0897f3;
+       animation: spin 1.5s linear infinite;
+     }
+  
+     @keyframes spin {
+       0% {
+         transform: rotate(0deg);
+       }
+       100% {
+         transform: rotate(360deg);
+       }
+     }
+  
+     /* Loader Sections */
+     .loader-section {
+       position: fixed;
+       top: 0;
+       width: 50%;
+       height: 100%;
+       background: transparent;
+       z-index: 1032;
+       transition: all 0.7s 0.7s cubic-bezier(0.645, 0.045, 0.355, 1);
+     }
+  
+     .loader-section.section-left {
+       left: 0;
+     }
+  
+     .loader-section.section-right {
+       right: 0;
+     }
+  
+     /* Loader Wrapper Transition on Loaded */
+     .loaded #loader-wrapper {
+       visibility: hidden;
+       transform: translateY(-100%);
+       transition: all 0.7s 1s ease-out;
+     }
+  
+     /* Loader Transition on Loaded */
+     .loaded #loader {
+       opacity: 0;
+       transition: all 1s ease-out;
+     }
+  
+     /* Loader Sections Transition on Loaded */
+     .loaded .loader-section.section-left {
+       transform: translateX(-100%);
+     }
+  
+     .loaded .loader-section.section-right {
+       transform: translateX(100%);
+     }
+     </style>  
+</head>
+<body>
+          <!-- Screen lazy loding  -->
+        <div id="loader-wrapper">
+          <div id="loader"></div>
+          <div class="loader-section section-left"></div>
+          <div class="loader-section section-right"></div>
+        </div>
+        
+    
+     <!-- Technicina Header Inside -->
+ <%- include('partials/TechnicinaHeaderInside.ejs',{user:user}); -%>
+
+    <div class="flex-column">
+      <br><br>
+      <br><br>
+      <br><br>
+      <br><br>
+            <h2 class="div-title">Drivers Request List</h2>
+        <div class="Container">
+            <% list.forEach(item => { %>
+                <form method="post" action="/Technician/RequestList">
+                  <div class="Card">
+                    <div class="gray-background" style="padding: 0;">
+                      <img class="img-scale" src="../Assets/backgrounds/Hammer-background.jpg">
+                    </div>
+                    <div class="request-content" style="padding: 0px 10px; margin: 5px">
+                    <div class="flex-column1">
+                      <div class="line-div">
+
+                      <h1 class="text-id">#<%= item.request.request_id %></h1>
+                        <span class="service_name"><%= item.service.service_name %></span> 
+                          <h1 class="text-distance"><i class='bx bxs-map'></i><%= item.result.distance.text %> </h1>
+                      </div>
+
+                      <div class="line-div">
+                        <h1 class="text-username"><i class='bx bx-user'></i> <%= item.driver.username %></h1>
+                      </div>
+                      <div class="line-div">
+                        <h1 class="text-Description">Description: <%= item.request.description %></h1>
+                      </div>
+                      
+                     
+
+                      <hr width="100%" size="1" color="#555555">
+                      <div class="line-div1">
+                        <h1 class="Time_Price_text">Time/Price</h1> 
+                        <div class="flex-row">
+                          <h1 class="text-duration"><i class='bx bx-time-five' ></i> <span><%=  item.result.duration.text %></span></h1>
+                          <h1 class="text-price"><i class='bx bx-dollar'></i><span> <%= item.price %> JOD </span></h1>
+                        </div>
+                      </div>
+                  
+                        <button class="Accept-btn" type="submit">Accept</button>
+
+                        <input type="hidden" name="data" id="geocodeResult" value="<%= JSON.stringify(item,null,2) %>">
+                    </div>
+                  </div>
+                  </div>
+                </form>
+            <% }) %>
+        </div>
+      </div>
+      <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <script>
+            // Screen Loader
+            document.addEventListener('DOMContentLoaded', function() {
+            document.body.classList.add('loaded');
+          });  
+        //profile dropdown
+        const requsetinfo = document.getElementById("geocodeResult").value;
+ 
+        console.log(requsetinfo)
+      function toggleDropdown() {
+     var dropdown = document.getElementById("dropdownContent");
+     dropdown.style.display === "none" ? dropdown.style.display = "block" : dropdown.style.display = "none";
+   }
+
+   document.addEventListener("click", function(event) {
+    var dropdown = document.getElementById("dropdownContent");
+    var profilePicture = document.querySelector(".profile-picture");
+     if (!profilePicture.contains(event.target) && !dropdown.contains(event.target)) {
+          dropdown.style.display = "none";
+   }
+   });
+
+   function toggleDropdown1() {
+     var dropdown = document.getElementById("dropdownContent1");
+     dropdown.style.display === "none" ? dropdown.style.display = "block" : dropdown.style.display = "none";
+   }
+
+   document.addEventListener("click", function(event) {
+    var dropdown = document.getElementById("dropdownContent1");
+    var profilePicture = document.querySelector(".profile-picture1");
+     if (!profilePicture.contains(event.target) && !dropdown.contains(event.target)) {
+          dropdown.style.display = "none";
+   }
+   });
+   //profile dropdown end 
+       //sidebar
+       function showSidebar(){
+         const sidebar = document.querySelector('.sidebar')
+         sidebar.style.display = 'flex'
+       }
+       function hideSidebar(){
+         const sidebar = document.querySelector('.sidebar')
+         sidebar.style.display = 'none'
+       }
+       //end sidebar
+       
+   </script>
+</body>
+</html>

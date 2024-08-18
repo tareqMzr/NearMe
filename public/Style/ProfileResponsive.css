@@ -1,0 +1,485 @@
+/* Responsive Design */
+/* styles for desktop devices */
+@media screen and(max-width: 1050px) {
+    .input-Text-pass{
+        background: #ecebeb;
+        height: 40px;
+        width:65%;
+        line-height: 40px;
+        border-radius: 20px;
+        padding: 0px 20px;
+        border: none;
+        color: rgb(0, 0, 0);
+        border-color: rgb(81, 81, 81);
+        font-size: 12px;
+      }
+
+} 
+  /* styles for tablet devices */
+  @media screen and(max-width:851px) {
+    *{
+        font-size: 12px;
+        box-sizing: border-box;
+        font-family: arial;
+    }
+    html{
+        width:100%;
+    }
+    body {
+        font-size: 12px;
+        width: 100%;
+        margin: 0;
+    }
+    main{
+        width: 100%;
+    }
+    .main{
+        width: 100%;
+        margin: 0;
+        margin-top: 20px;
+    }
+    .container1{
+        width: 100%;
+        height: auto;
+        font-family: Arial;
+        display: flex;
+        justify-content: center;
+    }
+    .slidebar{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        background-color:#0897f3;
+        color: white;
+        width: auto;
+        height: auto;
+        gap: 10px;
+        box-shadow: 0px 0px 5px rgb(0, 128, 255,0.4);
+        border-radius: 18px 0px 0px 18px;
+        padding: 0;
+        margin: 0;
+    }
+    img{
+        width: 80px;
+        height: auto;
+        padding: 5px;
+        margin: 0;
+        margin-top: 20px;
+    }
+    .Avatar-img{
+        width: 80px;
+        height: auto;
+        padding: 5px;
+        margin: 0;
+        margin-top: 20px;
+    }
+    .a1{
+        background-color: #fff;
+        width: 80px;
+        height: auto;
+        border: 2px solid #0897f3;
+        border-radius: 10px;
+        color: #0897f3;
+        padding: 8px;
+        font-size: 20px;
+        text-decoration: none;
+        font-family: Arial;
+        margin: 0px 15px;
+    }
+    .a2{
+      background-color: red;
+        width: 80px;
+        height: 50px;
+        border-radius: 10px;
+        color: white;
+        padding: 8px;
+        font-size: 20px;
+        text-decoration: none;
+        font-family: Arial;
+        margin:0px 15px 10px 15px;
+    }
+    .a1:hover{
+        background-color: rgb(241, 241, 241);
+        color: #0897f3;
+    }
+    .a2:hover{
+      background-color: rgb(231, 1, 1);
+      color: #fff;
+    }
+    .card{
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        width:100%;
+        height: auto;
+        background-color: white;
+        box-shadow: 0px 0px 5px rgb(0, 128, 255,0.4);
+        border-radius: 0px 18px 18px 0px;
+    }
+    /* Driver/Technician Profile End*/
+    .Personal-info-h1{
+        color: #000;
+        font-size: 18px;
+        text-wrap: nowrap;
+        margin-top: 20px;
+        margin-bottom: 20px;
+    }
+    .edit-h1{
+        margin-top: 20px;
+        margin-left: 10px;
+        color: #000;
+        font-size: 15px;
+        text-wrap: nowrap;
+    
+    }
+    .edit-h2{
+        margin-top: 20px;
+        margin-left: 0px;
+        color: #000;
+        font-size: 18px;
+        text-wrap: nowrap;
+    }
+    .input-Text-pass{
+        background: #ecebeb;
+        height: 40px;
+        width: 75%;
+        line-height: 40px;
+        border-radius: 20px;
+        padding: 0px 20px;
+        border: none;
+        color: rgb(0, 0, 0);
+        border-color: rgb(81, 81, 81);
+        font-size: 12px;
+      }
+      input,
+    input::placeholder {
+        font: 12px arial;
+    }
+    .btn1{
+        color: white;
+        cursor: pointer;
+        border: 0px solid white;
+        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+        background-color: #0897f3;
+        border-radius: 18px;
+        padding: 8px;
+        margin: 0px 4px;
+        width: 160px;
+        height: 60px;
+        text-align: center;
+        margin-left: 10px;
+    }
+  }
+  @media screen and (max-width: 850px) {
+    *{
+        font-size: 12px;
+        box-sizing: border-box;
+        font-family: arial;
+    }
+    html{
+        width:100%;
+    }
+    body {
+      font-size: 12px;
+      width: 100%;
+      margin: 0;
+    }
+    main{
+        width: 100%;
+    }
+    
+    .main{
+        width: 100%;
+        margin: 0;
+        margin-top: 20px;
+    }
+    .container1{
+        width: 100%;
+        height: auto;
+        font-family: Arial;
+        display: flex;
+        justify-content: center;
+        
+    }
+    .slidebar{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        background-color:#0897f3;
+        color: white;
+        width: auto;
+        height: auto;
+        gap: 10px;
+        box-shadow: 0px 0px 5px rgb(0, 128, 255,0.4);
+        border-radius: 18px 0px 0px 18px;
+        padding: 0;
+        margin: 0;
+    }
+    img{
+        width: 80px;
+        height: auto;
+        padding: 5px;
+        margin: 0;
+        margin-top: 20px;
+    }
+    .Avatar-img{
+        width: 80px;
+        height: auto;
+        padding: 5px;
+        margin: 0;
+        margin-top: 20px;
+    }
+    .a1{
+        background-color: #fff;
+        width: 80px;
+        height: auto;
+        border: 2px solid #0897f3;
+        border-radius: 10px;
+        color: #0897f3;
+        padding: 8px;
+        font-size: 20px;
+        text-decoration: none;
+        font-family: Arial;
+        margin: 0px 15px;
+    }
+    .a2{
+      background-color: red;
+        width: 80px;
+        height: 50px;
+        border-radius: 10px;
+        color: white;
+        padding: 8px;
+        font-size: 20px;
+        text-decoration: none;
+        font-family: Arial;
+        margin:0px 15px 10px 15px;
+    }
+    .a1:hover{
+        background-color: rgb(241, 241, 241);
+        color: #0897f3;
+    }
+    .a2:hover{
+      background-color: rgb(231, 1, 1);
+      color: #fff;
+    }
+    .card{
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        width:100%;
+        height: auto;
+        background-color: white;
+        box-shadow: 0px 0px 5px rgb(0, 128, 255,0.4);
+        border-radius: 0px 18px 18px 0px;
+    }
+    /* Driver/Technician Profile End*/
+    .Personal-info-h1{
+        color: #000;
+        font-size: 18px;
+        text-wrap: nowrap;
+        margin-top: 20px;
+        margin-bottom: 20px;
+    }
+    .edit-h1{
+        margin-top: 20px;
+        margin-left: 10px;
+        color: #000;
+        font-size: 15px;
+        text-wrap: nowrap;
+    
+    }
+    .edit-h2{
+        margin-top: 20px;
+        margin-left: 0px;
+        color: #000;
+        font-size: 18px;
+        text-wrap: nowrap;
+    }
+    .input-Text-pass{
+        background: #ecebeb;
+        height: 40px;
+        width: 75%;
+        line-height: 40px;
+        border-radius: 20px;
+        padding: 0px 20px;
+        border: none;
+        color: rgb(0, 0, 0);
+        border-color: rgb(81, 81, 81);
+        font-size: 12px;
+      }
+      input,
+    input::placeholder {
+        font: 12px arial;
+    }
+    .btn1{
+        color: white;
+        cursor: pointer;
+        border: 0px solid white;
+        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+        background-color: #0897f3;
+        border-radius: 18px;
+        padding: 8px;
+        margin: 0px 4px;
+        width: 160px;
+        height: 60px;
+        text-align: center;
+        margin-left: 10px;
+    }
+  }
+  @media screen and (max-width: 600px) {
+/* Driver/Technician Profile Start*/
+*{
+    font-size: 12px;
+    box-sizing: border-box;
+    font-family: arial;
+}
+html{
+    width:100%;
+}
+body {
+  font-size: 12px;
+  width: 100%;
+  margin: 0;
+}
+main{
+    width: 100%;
+}
+
+.main{
+    width: 100%;
+    margin: 0;
+    margin-top: 20px;
+}
+.container1{
+    width: 100%;
+    height: auto;
+    font-family: Arial;
+    display: flex;
+    justify-content: center;
+    
+}
+.slidebar{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color:#0897f3;
+    color: white;
+    width: auto;
+    height: auto;
+    gap: 10px;
+    box-shadow: 0px 0px 5px rgb(0, 128, 255,0.4);
+    border-radius: 18px 0px 0px 18px;
+    padding: 0;
+    margin: 0;
+}
+img{
+    width: 80px;
+    height: auto;
+    padding: 5px;
+    margin: 0;
+    margin-top: 20px;
+}
+.Avatar-img{
+    width: 80px;
+    height: auto;
+    padding: 5px;
+    margin: 0;
+    margin-top: 20px;
+}
+.a1{
+    background-color: #fff;
+    width: 80px;
+    height: auto;
+    border: 2px solid #0897f3;
+    border-radius: 10px;
+    color: #0897f3;
+    padding: 8px;
+    font-size: 20px;
+    text-decoration: none;
+    font-family: Arial;
+    margin: 0px 15px;
+}
+.a2{
+  background-color: red;
+    width: 80px;
+    height: 50px;
+    border-radius: 10px;
+    color: white;
+    padding: 8px;
+    font-size: 20px;
+    text-decoration: none;
+    font-family: Arial;
+    margin:0px 15px 10px 15px;
+}
+.a1:hover{
+    background-color: rgb(241, 241, 241);
+    color: #0897f3;
+}
+.a2:hover{
+  background-color: rgb(231, 1, 1);
+  color: #fff;
+}
+.card{
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    width:100%;
+    height: auto;
+    background-color: white;
+    box-shadow: 0px 0px 5px rgb(0, 128, 255,0.4);
+    border-radius: 0px 18px 18px 0px;
+}
+/* Driver/Technician Profile End*/
+.Personal-info-h1{
+    color: #000;
+    font-size: 18px;
+    text-wrap: nowrap;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+.edit-h1{
+    margin-top: 20px;
+    margin-left: 10px;
+    color: #000;
+    font-size: 15px;
+    text-wrap: nowrap;
+
+}
+.edit-h2{
+    margin-top: 20px;
+    margin-left: 0px;
+    color: #000;
+    font-size: 18px;
+    text-wrap: nowrap;
+}
+.input-Text-pass{
+    background: #ecebeb;
+    height: 40px;
+    width: auto;
+    line-height: 40px;
+    border-radius: 20px;
+    padding: 0px 20px;
+    border: none;
+    color: rgb(0, 0, 0);
+    border-color: rgb(81, 81, 81);
+    font-size: 12px;
+  }
+  input,
+input::placeholder {
+    font: 12px arial;
+}
+.btn1{
+    color: white;
+    cursor: pointer;
+    border: 0px solid white;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+    background-color: #0897f3;
+    border-radius: 18px;
+    padding: 8px;
+    margin: 0px 4px;
+    width: 160px;
+    height: 60px;
+    text-align: center;
+    margin-left: 10px;
+}
+  }

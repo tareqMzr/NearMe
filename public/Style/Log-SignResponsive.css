@@ -1,0 +1,215 @@
+/* Responsive Design */
+/* styles for desktop devices */
+/* @media screen and(min-width: 1370px) {
+
+
+} */
+  /* styles for tablet devices */
+  @media screen and(min-width:851px) {
+    *{
+        font-size: 12px;
+        box-sizing: border-box;
+        font-family: arial;
+    }
+    html{
+        width:auto;
+    }
+    body {
+      width: auto;
+      font-size: 12px;
+      width: 100%;
+      margin: 0;
+    }
+  }
+  /* styles for mobile devices */
+  @media screen and (max-width: 850px) {
+   /* Driver LoginPgae End*/
+   *{
+    font-size: 12px;
+    box-sizing: border-box;
+    font-family: arial;
+}
+html{
+    width:auto;
+}
+body {
+  width: auto;
+  font-size: 12px;
+  width: 100%;
+  margin: 0;
+}
+    .logo-transparent-login{
+    height: 60px;
+    width: 150px;
+    position: relative;
+    top: 0;
+    right: 0;
+    left: 60px;
+    margin-bottom: 20px;
+
+  }
+  .pass-div{
+    display: flex;
+    align-items: center;
+    width: 107%;
+  }
+  .input-Text{
+    background: #ecebeb;
+    height: 40px;
+    line-height: 40px;
+    border-radius: 20px;
+    padding: 0px 20px;
+    margin: 6px 0px 0px 0px;
+    border: none;
+    color: rgb(0, 0, 0);
+    border-color: rgb(81, 81, 81);
+  }
+  .input-Text-pass{
+    background: #ecebeb;
+    height: 40px;
+    width: 100%;
+    line-height: 40px;
+    border-radius: 20px;
+    padding: 0px 20px;
+    margin: 6px 0px 0px 0px;
+    border: none;
+    color: rgb(0, 0, 0);
+    border-color: rgb(81, 81, 81);
+  }
+  .bx{
+    font-size: 20px;
+    position: relative;
+    top: 6px;
+  }
+  /* Driver LoginPgae  End*/
+
+
+
+  }
+  @media screen and (max-width: 600px) {
+/* Driver/Technician LoginPage End*/
+*{
+    font-size: 12px;
+    box-sizing: border-box;
+    font-family: arial;
+}
+html{
+    width:auto;
+}
+body {
+  width: auto;
+  font-size: 12px;
+  width: 100%;
+  margin: 0;
+}
+.logo-transparent-login{
+  height: 60px;
+  width: 150px;
+  position: relative;
+  top: 0;
+  right: 0;
+  left: 60px;
+  margin-bottom: 20px;
+
+}
+.pass-div{
+  display: flex;
+  align-items: center;
+  width: 107%;
+}
+.input-Text{
+  background: #ecebeb;
+  height: 40px;
+  line-height: 40px;
+  border-radius: 20px;
+  padding: 0px 20px;
+  margin: 6px 0px 0px 0px;
+  border: none;
+  color: rgb(0, 0, 0);
+  border-color: rgb(81, 81, 81);
+}
+.input-Text-pass{
+  background: #ecebeb;
+  height: 40px;
+  width: 100%;
+  line-height: 40px;
+  border-radius: 20px;
+  padding: 0px 20px;
+  margin: 6px 0px 0px 0px;
+  border: none;
+  color: rgb(0, 0, 0);
+  border-color: rgb(81, 81, 81);
+}
+.bx{
+  font-size: 20px;
+  position: relative;
+  top: 6px;
+}
+/* Driver/Technician LoginPage  End*/
+
+/* Driver/Technician SignUpPage Start */
+.SignupTec{
+    margin-top: 50px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: auto;
+    background-color: rgb(255, 255, 255);
+    color: white;
+    border-radius: 20px;
+    box-shadow: 0px 0px 5px rgba(1, 1, 1, 0.4);
+    background-size: cover;
+    background-position: center;
+    overflow: hidden;
+    margin: 20px;
+  }
+.input-Text1{
+    background: #ecebeb;
+    height: 40px;
+    line-height: 40px;
+    border-radius: 20px;
+    padding: 0px 20px;
+    border: none;
+    color: rgb(0, 0, 0);
+    border-color: rgb(81, 81, 81);
+  }
+  .input-Text-pass1{
+    background: #ecebeb;
+    height: 40px;
+    width: 100%;
+    line-height: 40px;
+    border-radius: 20px;
+    padding: 0px 20px;
+    border: none;
+    color: rgb(0, 0, 0);
+    border-color: rgb(81, 81, 81);
+  }
+  .logo-transparent1{
+    height: 60px;
+    width: 150px;
+    position: relative;
+    top: 0;
+    right: 0;
+    left: 30px;
+    margin-bottom: 20px;
+
+  }
+  .logo-transparent-Driver{
+    height: 60px;
+    width: 150px;
+    position: relative;
+    top: 0;
+    left: 60px;
+    margin-bottom: 20px;
+  }
+  .toggle-password{
+    font-size: 20px;
+    position: relative;
+    top:6px;
+  }
+
+  /* Driver/Technician SignUpPage End */
+
+  }

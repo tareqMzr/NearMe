@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../Style/EmailAuthentication.css">
+    <title>Email Authentication</title>
+</head>
+<body>
+    <div class="auth-container">
+        <h2>Email Verification</h2>
+        <p>Please enter the code sent to your email.</p>
+        <div id="error-message" class="error"></div>
+        <input type="text" id="code" placeholder="Enter verification code">
+        <button onclick="verifyCode()">Verify</button>
+        <p class="resend" onclick="resendCode()">Resend Code</p>
+    </div>
+
+    <script>
+        // Sample code for demonstration purposes
+        const correctCode = "123456";  // This would be generated and sent to the user's email in a real application
+    
+        function verifyCode() {
+            const userCode = document.getElementById('code').value;
+            const errorMessage = document.getElementById('error-message');
+    
+            if (userCode === correctCode) {
+                errorMessage.textContent = "";
+                window.location.href = 'nextPage.html';  // Redirect to the next page
+            } else {
+                errorMessage.textContent = "Invalid code. Please try again.";
+            }
+        }
+    
+        function resendCode() {
+            // Here you would trigger the backend to resend the code to the user's email
+            alert("A new verification code has been sent to your email.");
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,45 @@
+body{
+    background-color: #FFF;
+    font-family: arial;
+    height: 100%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: start;
+}
+.flex-column{
+    border-radius: 18px;
+    width: 99%;
+    height: 100vh;
+}
+.div-logo{
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    align-items: center;
+}
+.logo{
+    width: 200px;
+    height: auto;
+}
+h2{
+    color: white;
+}
+.Container{
+    display: grid;
+    grid-template-columns: auto auto;
+    padding: 5%;
+}
+.Card{
+    background-color: rgba(255, 255, 255, 0.8);
+    border: 1px solid rgba(0, 0, 0, 0.8);
+    font-size: 30px;
+    margin-bottom: 2%;
+    border-radius: 18px;
+    text-align: center;
+    width: 95%;
+    height: 300px;
+}
+.Content{
+    padding: 10px;
+}

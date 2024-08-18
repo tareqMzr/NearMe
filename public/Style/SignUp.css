@@ -1,0 +1,369 @@
+body{
+  background-color: #ebeaea;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  font-family: arial;
+}
+.login{
+  width: 400px;
+  height: auto;
+  background-color: rgb(255, 255, 255);
+  color: white;
+  border-radius: 20px;
+  box-shadow: 0px 0px 5px rgba(1, 1, 1, 0.4);
+  background-size: cover;
+  background-position: center;
+  overflow: hidden;
+}
+.SignupTec{
+  display: flex;
+  flex-direction: column;
+  width: 500px;
+  height: auto;
+  background-color: rgb(255, 255, 255);
+  color: white;
+  border-radius: 20px;
+  box-shadow: 0px 0px 5px rgba(1, 1, 1, 0.4);
+  background-size: cover;
+  background-position: center;
+  overflow: hidden;
+}
+form{
+  display: block;
+  box-sizing: border-box;
+  padding: 40px;
+  width: 100%;
+  height: 100%;
+  backdrop-filter: brightness(100%);
+  flex-direction: column;
+  display: flex;
+  gap: 5px;
+}
+h1{
+  color: black;
+  font-weight: normal;
+  font-size: 24px;
+  text-shadow: 0px 0px 1px rgba(0,0,0,0.5);
+  margin-bottom: 10px;
+  margin-top: 5px;
+}
+p{
+  text-wrap: wrap;
+  color: black;
+  font-weight: 200;
+  font-size: 18px;
+  text-shadow: 0px 0px 1px rgba(0,0,0,0.5);
+  margin-bottom: 10px;
+  margin-top: 5px; 
+}
+.input-Text{
+  background: #ecebeb;
+  height: 40px;
+  line-height: 40px;
+  border-radius: 20px;
+  padding: 0px 20px;
+  border: none;
+  color: rgb(0, 0, 0);
+  border-color: rgb(81, 81, 81);
+}
+.input-Text1{
+  background: #ecebeb;
+  height: 40px;
+  line-height: 40px;
+  border-radius: 20px;
+  padding: 0px 20px;
+  border: none;
+  color: rgb(0, 0, 0);
+  border-color: rgb(81, 81, 81);
+}
+.input-Text-pass{
+  background: #ecebeb;
+  height: 40px;
+  width: 100%;
+  line-height: 40px;
+  border-radius: 20px;
+  padding: 0px 20px;
+  border: none;
+  color: rgb(0, 0, 0);
+  border-color: rgb(81, 81, 81);
+}
+.pass-div{
+  display: flex;
+  align-items: center;
+  width: 340px;
+}
+.toggle-password {
+  position: relative;
+  left:-50px;
+  top: 440px;
+  width: 20px;
+  height: auto;
+  color: #000;
+  cursor: pointer;
+  margin-bottom: 5px;
+}
+.Error-text{
+  font-size: 14px;
+  color: red;
+  margin:0px 0px 10px 13px;
+} 
+.invalid{
+  font-size: 14px;
+  color: red;
+  margin-left: 16px;
+}
+.valid{
+  font-size: 14px;
+  margin-left: 16px;
+  color: green;
+}
+label{
+  color: rgba(0, 0, 0, 0.8);
+  font-size: 10.5px;
+  padding-left: 10px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+.Signup-btn{
+  background: #0276f2;
+  height: 40px;
+  width: auto;
+  line-height: 40px;
+  border-radius: 17.3px;
+  margin: 10px 50px;
+  box-shadow: 0px 0px 2px rgb(0, 128, 255);
+  color: white;
+  font-size: 12px;
+  text-transform: uppercase;
+  margin-bottom: 0;
+  margin-top: 0;
+}
+.Tech-button{
+  background: #0276f2;
+  height: 40px;
+  line-height: 40px;
+  border-radius: 17.3px;
+  margin: 10px 50px;
+  box-shadow: 0px 0px 2px rgb(0, 128, 255);
+  color: white;
+  font-size: 14px;
+  text-transform: uppercase;
+  border: none;
+}
+button{
+  background: #0276f2;
+  height: 40px;
+  line-height: 40px;
+  border-radius: 17.3px;
+  margin: 0px 50px;
+  box-shadow: 0px 0px 2px rgb(0, 128, 255);
+  color: white;
+  font-size: 14px;
+  text-transform: uppercase;
+  border: none;
+}
+button:active::before{
+  box-shadow: none;
+}
+button::after{
+  box-shadow: none;
+}
+button::before{
+  box-shadow: none;
+}
+button:hover{
+  background-color: #0252a8;
+  box-shadow: none;
+}
+.lable-text{
+  font-size: 12px;
+}
+.bx{
+  font-size: 20px;
+  position: relative;
+  top: 3px;
+}
+.Rm-text{
+  font-size: 12px;
+}
+.Signup-remeber{
+display: flex;
+justify-content: flex-start;
+align-items: flex-start;
+font-size: 14.5px;
+margin: -3px 10px 3px 0px;
+accent-color: #0056b3;
+}
+.remeber{
+  display: flex;
+  justify-content: space-between;
+  font-size: 14.5px;
+  margin: 10px 0px 8px 40px;
+  accent-color: #0056b3;
+}
+input[type="checkbox"]{
+  height: 15px;
+  width: 15px;
+  border-radius: 0.25em;
+  position: relative;
+  top: 2px;
+}
+.logo-transparent-Driver{
+  height: 60px;
+  width: 150px;
+  position: relative;
+  top: 0;
+  left: 80px;
+}
+.logo-transparent1{
+  height: 60px;
+  width: 150px;
+  position: relative;
+  top: 0;
+  left: 90px;
+}
+.register-link{
+font-size: 12.5px;
+text-align: center;
+margin-top: 0;
+opacity: 0.75;
+}
+.register-link p{
+font-size: 15px;
+color: rgba(0, 0, 0, 0.8);
+text-decoration: none;
+font-weight: 600;
+}
+.register-link a{
+color: rgba(3, 3, 3, 0.8);
+text-decoration: underline;
+font-weight: 600;
+}
+
+
+/* Upload File code.*/
+.UploadContainer{
+margin-top: 8px;
+display: flex;
+justify-content: center;
+align-items: center;
+cursor: pointer;
+}
+::selection{
+color: black;
+background: #0276f2;
+}
+.wrapper{
+width: 250px;
+background: #fff;
+border-radius: 5px;
+padding: 30px;
+box-shadow: 7px 7px 12px rgba(0,0,0,0.05);
+border: 1px solid black;
+}
+.wrapper header{
+color: #0276f2;
+font-size: 27px;
+font-weight: 600;
+text-align: center;
+}
+.wrapper .upload{
+height: 50px;
+display: flex;
+cursor: pointer;
+margin: 30px 0;
+align-items: center;
+justify-content: center;
+flex-direction: column;
+border-radius: 5px;
+border: 2px dashed #0276f2;
+}
+.upload :where(i, p){
+color: #0276f2;
+}
+.upload i{
+font-size: 50px;
+}
+.upload p{
+margin-top: 15px;
+font-size: 16px;
+}
+.uploadbutton{
+margin-left: 30px;
+padding: 8px 6px;
+text-align: center;
+cursor: pointer;
+border: 2px solid black;
+border-radius: inherit;
+border-radius: 20px;
+
+}
+section .row{
+margin-bottom: 10px;
+background: #E9F0FF;
+list-style: none;
+padding: 15px 20px;
+border-radius: 5px;
+display: flex;
+align-items: center;
+justify-content: space-between;
+}
+section .row i{
+color: #0276f2;
+font-size: 30px;
+}
+section .details span{
+font-size: 14px;
+}
+.progress-area .row .content{
+width: 100%;
+margin-left: 15px;
+}
+.progress-area .details{
+display: flex;
+align-items: center;
+margin-bottom: 7px;
+justify-content: space-between;
+}
+.progress-area .content .progress-bar{
+height: 6px;
+width: 50%;
+margin-bottom: 4px;
+background: #000;
+border-radius: 30px;
+}
+.content .progress-bar .progress{
+height: 50%;
+width: 0%;
+background: #0276f2;
+border-radius: inherit;
+}
+.uploaded-area{
+max-height: 232px;
+overflow-y: scroll;
+}
+.uploaded-area.onprogress{
+max-height: 150px;
+}
+.uploaded-area::-webkit-scrollbar{
+width: 0px;
+}
+.uploaded-area .row .content{
+display: flex;
+align-items: center;
+color: #404040;
+}
+.uploaded-area .row .details{
+display: flex;
+margin-left: 15px;
+flex-direction: column;
+}
+.uploaded-area .row .details .size{
+color: #404040;
+font-size: 11px;
+}
+.uploaded-area i.fa-check{
+font-size: 16px;
+}

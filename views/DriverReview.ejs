@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Star Rating Review</title>
+  <link rel="stylesheet" href="../Style/DriverReview.css">
+  <style>
+    /* Loader Wrapper */
+ #loader-wrapper {
+   position: fixed;
+   top: 0;
+   left: 0;
+   width: 100%;
+   height: 100%;
+   z-index: 1034;
+   background-color: transparent;
+   visibility: visible;
+   transition: all 2s 4s ease-out;
+ }
+
+ /* Loader */
+ #loader {
+   display: block;
+   position: relative;
+   left: 50%;
+   top: 50%;
+   width: 150px;
+   height: 150px;
+   margin: -75px 0 0 -75px;
+   border-radius: 50%;
+   border: 8px solid transparent;
+   border-top-color: #06b2fa;
+   animation: spin 1s linear infinite;
+   z-index: 1034;
+ }
+
+ #loader:before,
+ #loader:after {
+   content: "";
+   position: absolute;
+   border-radius: 50%;
+   border: 8px solid transparent;
+ }
+
+ #loader:before {
+   top: 5px;
+   left: 5px;
+   right: 5px;
+   bottom: 5px;
+   border-top-color: #2e2e2e;
+   animation: spin 2s linear infinite;
+ }
+
+ #loader:after {
+   top: 15px;
+   left: 15px;
+   right: 15px;
+   bottom: 15px;
+   border-top-color: #0897f3;
+   animation: spin 1.5s linear infinite;
+ }
+
+ @keyframes spin {
+   0% {
+     transform: rotate(0deg);
+   }
+   100% {
+     transform: rotate(360deg);
+   }
+ }
+
+ /* Loader Sections */
+ .loader-section {
+   position: fixed;
+   top: 0;
+   width: 50%;
+   height: 100%;
+   background: transparent;
+   z-index: 1032;
+   transition: all 0.7s 0.7s cubic-bezier(0.645, 0.045, 0.355, 1);
+ }
+
+ .loader-section.section-left {
+   left: 0;
+ }
+
+ .loader-section.section-right {
+   right: 0;
+ }
+
+ /* Loader Wrapper Transition on Loaded */
+ .loaded #loader-wrapper {
+   visibility: hidden;
+   transform: translateY(-100%);
+   transition: all 0.7s 1s ease-out;
+ }
+
+ /* Loader Transition on Loaded */
+ .loaded #loader {
+   opacity: 0;
+   transition: all 1s ease-out;
+ }
+
+ /* Loader Sections Transition on Loaded */
+ .loaded .loader-section.section-left {
+   transform: translateX(-100%);
+ }
+
+ .loaded .loader-section.section-right {
+   transform: translateX(100%);
+ }
+ </style>  
+</head>
+<body>
+ <!-- Screen lazy loding  -->
+ <div id="loader-wrapper">
+  <div id="loader"></div>
+  <div class="loader-section section-left"></div>
+  <div class="loader-section section-right"></div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+<script>
+// Screen Loader
+document.addEventListener('DOMContentLoaded', function() {
+  document.body.classList.add('loaded');
+});  
+</script>
+
+  <form action="/Driver/FeedBack" method="post" id="reviewForm">
+    <div class="review-container">
+      <h1>Rate the Service</h1>
+      <div class="review-section">
+        <span class="title">Overall Rating:</span>
+        <div class="star-rating" id="starRating">
+          <span class="star" data-value="1">★</span>
+          <span class="star" data-value="2">★</span>
+          <span class="star" data-value="3">★</span>
+          <span class="star" data-value="4">★</span>
+          <span class="star" data-value="5">★</span>
+        </div>
+      </div>
+      <input type="hidden" name="requestinfo" id="requestdata" value="<%= JSON.stringify(request) %>">
+      <input type="hidden" name="rate" id="rateid">
+      <div class="review-section">
+        <textarea id="reviewText" rows="5" class="textbox" placeholder="Write your review here..." name="Description"></textarea>
+        <div id="error-message">Your description should not be more than 200 characters</div>
+        <div id="StarErrorMessage">Make Sure To Give Us Your Honest Rating 😄</div>
+      </div>
+      <button type="submit" class="Reviewbutton">Done</button>
+    </div>
+  </form>
+
+  <script>
+    // Description error handling
+    const textarea = document.getElementById('reviewText');
+    const StarErrorMessage = document.getElementById('StarErrorMessage');
+    const errorMessage = document.getElementById('error-message');
+    const submitButton = document.querySelector('#reviewForm button'); // Get the submit button
+
+    textarea.addEventListener('input', () => {
+      if (textarea.value.length > 200) {
+        errorMessage.style.display = 'block';
+        submitButton.disabled = true; // Disable submit button
+      } else {
+        errorMessage.style.display = 'none';
+        submitButton.disabled = false; // Enable submit button if valid
+      }
+    });
+
+    // Star Rating and Validation
+    let hasSelectedRating = false; // Flag to track star selection
+
+    document.addEventListener('DOMContentLoaded', function () {
+      const stars = document.querySelectorAll('.star-rating .star');
+      stars.forEach(star => {
+        star.addEventListener('click', function() {
+          selectRating(this); // Pass the clicked star element
+        });
+      });
+
+      function selectRating(selectedStar) {
+        const value = parseInt(selectedStar.getAttribute('data-value'));
+        updateStars(value);
+        document.getElementById("rateid").value = value;
+        console.log("Selected rating:", value); // Replace this with code to save the rating to your database
+        hasSelectedRating = true; // Set flag to indicate star selection
+      }
+
+      function updateStars(value) {
+        stars.forEach(star => {
+          const starValue = parseInt(star.getAttribute('data-value'));
+          if (starValue <= value) {
+            star.classList.add('selected');
+          } else {
+            star.classList.remove('selected');
+          }
+        });
+      }
+    });
+
+    // Submit Button Validation
+    submitButton.addEventListener('click', function(event) {
+      if (!hasSelectedRating) {
+        StarErrorMessage.style.display = 'block';
+        // alert("Please select a star rating before submitting your review.");
+        event.preventDefault(); // Prevent form submission
+      }
+      else{
+        StarErrorMessage.style.display = 'none';
+      }
+    });
+  </script>
+</body>
+</html>

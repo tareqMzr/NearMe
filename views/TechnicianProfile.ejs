@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile Page</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.2.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="../Style/TechnicianProfile.css">
+    <link rel="stylesheet" href="../Style/ProfileResponsive.css">
+    <link rel="stylesheet" href="../Style/HomeResponsive.css">
+    <style>
+        /* Loader Wrapper */
+     #loader-wrapper {
+       position: fixed;
+       top: 0;
+       left: 0;
+       width: 100%;
+       height: 100%;
+       z-index: 1034;
+       background-color: transparent;
+       visibility: visible;
+       transition: all 2s 4s ease-out;
+     }
+  
+     /* Loader */
+     #loader {
+       display: block;
+       position: relative;
+       left: 50%;
+       top: 50%;
+       width: 150px;
+       height: 150px;
+       margin: -75px 0 0 -75px;
+       border-radius: 50%;
+       border: 3px solid transparent;
+       border-top-color: #06b2fa;
+       animation: spin 1s linear infinite;
+       z-index: 1034;
+     }
+  
+     #loader:before,
+     #loader:after {
+       content: "";
+       position: absolute;
+       border-radius: 50%;
+       border: 3px solid transparent;
+     }
+  
+     #loader:before {
+       top: 5px;
+       left: 5px;
+       right: 5px;
+       bottom: 5px;
+       border-top-color: #fff;
+       animation: spin 2s linear infinite;
+     }
+  
+     #loader:after {
+       top: 15px;
+       left: 15px;
+       right: 15px;
+       bottom: 15px;
+       border-top-color: #0897f3;
+       animation: spin 1.5s linear infinite;
+     }
+  
+     @keyframes spin {
+       0% {
+         transform: rotate(0deg);
+       }
+       100% {
+         transform: rotate(360deg);
+       }
+     }
+  
+     /* Loader Sections */
+     .loader-section {
+       position: fixed;
+       top: 0;
+       width: 50%;
+       height: 100%;
+       background: transparent;
+       z-index: 1032;
+       transition: all 0.7s 0.7s cubic-bezier(0.645, 0.045, 0.355, 1);
+     }
+  
+     .loader-section.section-left {
+       left: 0;
+     }
+  
+     .loader-section.section-right {
+       right: 0;
+     }
+  
+     /* Loader Wrapper Transition on Loaded */
+     .loaded #loader-wrapper {
+       visibility: hidden;
+       transform: translateY(-100%);
+       transition: all 0.7s 1s ease-out;
+     }
+  
+     /* Loader Transition on Loaded */
+     .loaded #loader {
+       opacity: 0;
+       transition: all 1s ease-out;
+     }
+  
+     /* Loader Sections Transition on Loaded */
+     .loaded .loader-section.section-left {
+       transform: translateX(-100%);
+     }
+  
+     .loaded .loader-section.section-right {
+       transform: translateX(100%);
+     }
+     </style>  
+</head>
+<style>
+    *{
+        font-family: arial;
+    }
+    .password-requirements {
+        font-family: arial;
+        display: none;
+        border: 1px solid #ccc;
+        background-color: #f9f9f9;
+        padding: 10px;
+        margin-top: 5px;
+        border-radius: 5px;
+    }
+    .password-requirements p {
+        margin: 0;
+        padding: 0;
+    }
+    .password-requirements .valid {
+        color: green;
+    }
+    .password-requirements .invalid {
+        color: red;
+    }
+    .password-requirements.show {
+        display: block;
+    }
+</style>
+<body>
+    <main>
+          <!-- Screen lazy loding  -->
+  <div id="loader-wrapper">
+    <div id="loader"></div>
+    <div class="loader-section section-left"></div>
+    <div class="loader-section section-right"></div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+<script>
+  // Screen Loader
+  document.addEventListener('DOMContentLoaded', function() {
+    document.body.classList.add('loaded');
+  });  
+</script>
+
+         <!-- Technicina Header Inside -->
+ <%- include('partials/TechnicinaHeaderInside.ejs',{user:user}); -%>
+
+         <!-- spaces -->
+         <br><br><br>
+
+    <div class="main">
+        <div class="container1">
+             <div class="slidebar">
+                <img class="Avatar-img" src="../Assets/Icons/user-icon.png">
+                <!-- Call the toggleEdit function to switch modes -->
+                <a class="a1" href="javascript:void(0);" onclick="toggleEdit()">Edit</a>
+                <a class="a2" href="/Technician/Logout">Logout</a>
+            </div>
+
+            <!-- Read-Only View Section -->
+            <div id="viewSection" class="card">
+                <h1 class="Personal-info-h1">Personal Information</h1>
+                <div>
+                    <h4>Workshop Name</h4> <%= user.username %> 
+                    <hr>
+                    <h4>Email</h4> <%= user.email %>
+                    <hr>
+                    <h4>Phone</h4> <%= user.phone_number %>
+                    <hr>
+                    <!-- WORKSHOP RATING -->
+                    <h4>Your Rating</h4><p><%= Rate  %>/5</p> 
+                    <hr>
+                    <h4>Years of experience</h4> <%= user.yearofexperience %> 
+                    <hr>
+                    <h4>Certificate</h4> <%= user.certificate %>
+                    <hr>
+                    <h4>Password</h4> *******
+                </div>
+            </div>
+
+            <!-- Editable Form Section (initially hidden) -->
+            <div id="editSection" class="Edit-container" style="display: none;">
+                <h1 class="edit-h1">Edit Personal Information</h1>
+                <form id="ProfileEdit" action="/Technician/Profile" method="POST">
+                    <div class="containerEdit">
+                            <label class="lable-text" for="username"><i class='bx bx-user' ></i> Workshop Name:</label>
+                            <input class="input-Text" type="text" id="username" name="username" value="<%= user.username %>">
+                        
+                            <label class="lable-text" for="email"><i class='bx bx-envelope' ></i> Email:</label>
+                            <input class="input-Text" type="email" id="email" name="email" value="<%= user.email %>">
+                        
+                            <label class="lable-text" for="phone_number"><i class='bx bx-phone' ></i> Phone Number:</label>
+                            <input class="input-Text" type="text" id="phone_number" name="phone_number" value="<%= user.phone_number %>">
+                        
+                            <label class="lable-text"><i class='bx bx-briefcase'></i> Experience</label>
+                            <select id="volumeSelector" class="input-Text" aria-placeholder="0" name="YoE">
+                                <option value="">Years of Experience</option>
+                                <option value="1-2">1-2</option>
+                                <option value="3-5">3-5</option>
+                                <option value="6-9">6-9</option>
+                                <option value="+10">+10</option>
+                            </select>
+
+                            <label class="lable-text"><i class='bx bx-certification'></i> Certifications</label>
+                            <select id="volumeSelector" class="input-Text" aria-placeholder="0" name="Cer">
+                                <option value="">Certifications</option>
+                                <option value="diploma">diploma</option>
+                                <option value="Work Experience">Work Experience</option>
+                                <option value="diploma and Work Experience">both</option>
+                            </select>
+                            
+                        <h2 class="edit-h2">Change Password</h2>
+                            <label class="lable-text" for="password"><i class='bx bx-lock-open-alt'></i> Current Password:</label>
+                            <div class="pass-div">
+                                <input class="input-Text-pass" type="password" id="password1" name="password" placeholder="Enter Your Current password">
+                                <i class='bx bx-hide toggle-password' id="togglePassword1"></i>
+                            </div>
+
+                            <label class="lable-text" for="password"><i class='bx bx-lock-alt'></i> New Password:</label>
+                            <div class="pass-div">
+                                <input class="input-Text-pass" type="password" id="password" name="newpassword" placeholder="Enter new password">
+                                <i class='bx bx-hide toggle-password' id="togglePassword"></i>
+                            </div>
+                            <div id="passwordRequirements" class="password-requirements">
+                                <p id="length" class="invalid">At least 8 characters long</p>
+                                <p id="uppercase" class="invalid">At least one uppercase letter</p>
+                                <p id="lowercase" class="invalid">At least one lowercase letter</p>
+                                <p id="number" class="invalid">At least one number</p>
+                                <p id="special" class="invalid">At least one special character</p>
+                            </div>
+
+                            <label class="lable-text" for="password"><i class='bx bx-lock-alt'></i> Confrim Password:</label>
+                                <div class="pass-div">
+                                    <input class="input-Text-pass" type="password" id="confirmPassword" name="confirmnewpassword" placeholder="Enter Confirm password">
+                                    <i class='bx bx-hide toggle-password' id="toggleConfirmPassword"></i>
+                                </div>
+                                <div id="confirmMessage" class="invalid"></div>
+
+
+                        <div class="edit-buttons-container">
+                            <button class="btn1" type="button" onclick="toggleEdit()">Cancel</button>
+                            <button style="margin-right: 20px;"class="btn1" type="submit">Save Changes</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <input type="hidden" name="Arrived_result" id="userdata" value="<%=JSON.stringify(user,null,2)%>">
+    <input type="hidden" name="suc" id="success" value="<%= suc %>">
+    <input type="hidden" name="suc" id="error" value="<%= er %>">
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+
+            //New Toast Notification
+            const success  = document.getElementById("success").value;
+            const error  = document.getElementById("error").value;
+
+            if(typeof success !== 'undefined' && success !== null && success !== ''){
+                let timerInterval;
+                Swal.fire({
+                icon: "success",
+                title: success,
+                position: "top",
+                timer: 2000,
+                timerProgressBar: true,
+                didOpen: () => {
+                Swal.showLoading();
+                },
+                willClose: () => {
+                clearInterval(timerInterval);
+                }
+            }).then((result) => {
+                /* Read more about handling dismissals below */
+                if (result.dismiss === Swal.DismissReason.timer) {
+                console.log("I was closed by the timer");
+                }
+            });
+            }
+            if(typeof error !== 'undefined' && error !== null && error !== ''){
+                let timerInterval;
+                Swal.fire({
+                icon: "error",
+                title: error,
+                position: "top",
+                timer: 2000,
+                timerProgressBar: true,
+                didOpen: () => {
+                Swal.showLoading();
+                const timer = Swal.getPopup().querySelector("b");
+                timerInterval = setInterval(() => {
+                    timer.textContent = `${Swal.getTimerLeft()}`;
+                }, 100);
+                },
+                willClose: () => {
+                clearInterval(timerInterval);
+                }
+            }).then((result) => {
+                /* Read more about handling dismissals below */
+                if (result.dismiss === Swal.DismissReason.timer) {
+                console.log("I was closed by the timer");
+                }
+            });
+            }
+
+
+        const userdataValue = document.getElementById("userdata").value;
+        const userArray=JSON.parse(userdataValue);
+        var socket = io();
+        socket.on(`Refresh-${userArray.user_id}`, (message) => {
+        //alert(message)
+        Swal.fire({
+        icon: "error",
+        title: message,
+        buttons:true,
+        dangerMode: true,
+      })
+      .then((IsOkay) =>{
+        if(IsOkay) {
+          window.location.href = '/Technician/Home';
+        }
+      });
+      });
+        socket.on(`Driver-Accept-${userArray.user_id}`, (message) => {
+            alert(message);
+            window.location.href="/Technician/AcceptedRequest"
+         });
+        //Edit button
+         function toggleEdit() {
+            const viewSection = document.getElementById("viewSection");
+            const editSection = document.getElementById("editSection");
+            viewSection.style.display = (viewSection.style.display === "none") ? "block" : "none";
+            editSection.style.display = (editSection.style.display === "none") ? "block" : "none";
+        }
+       //hide or show password
+        // Function to toggle password visibility
+        function togglePasswordVisibility(toggleId, inputId) {
+                document.getElementById(toggleId).addEventListener('click', function () {
+                    const input = document.getElementById(inputId);
+                    const type = input.getAttribute('type') === 'password' ? 'text' : 'password';
+                    input.setAttribute('type', type);
+                    this.classList.toggle('bx-show');
+                    this.classList.toggle('bx-hide');
+                });
+            }
+                 // Toggle password requirements box
+        document.getElementById('password').addEventListener('focus', function (e) {
+            document.getElementById('passwordRequirements').classList.add('show');
+        });
+
+        document.getElementById('password').addEventListener('blur', function (e) {
+            document.getElementById('passwordRequirements').classList.remove('show');
+        });
+        
+            // Initialize password toggle functionality
+            togglePasswordVisibility('togglePassword1', 'password1');
+            togglePasswordVisibility('togglePassword', 'password');
+            togglePasswordVisibility('toggleConfirmPassword', 'confirmPassword');
+        
+            // Password validation criteria
+            const passwordCriteria = {
+                length: /.{8,}/,
+                uppercase: /[A-Z]/,
+                lowercase: /[a-z]/,
+                number: /[0-9]/,
+                special: /[!@#$%^&*(),.?":{}|<>]/
+            };
+        
+            const password = document.getElementById('password');
+            const password1 = document.getElementById('password1');
+            const confirmPassword = document.getElementById('confirmPassword');
+            const passwordRequirements = document.getElementById('passwordRequirements');
+            const confirmMessage = document.getElementById('confirmMessage');
+        
+            const lengthRequirement = document.getElementById('length');
+            const uppercaseRequirement = document.getElementById('uppercase');
+            const lowercaseRequirement = document.getElementById('lowercase');
+            const numberRequirement = document.getElementById('number');
+            const specialRequirement = document.getElementById('special');
+        
+           
+            function validatePassword() {
+                const value = password.value;
+                lengthRequirement.className = passwordCriteria.length.test(value) ? 'valid' : 'invalid';
+                uppercaseRequirement.className = passwordCriteria.uppercase.test(value) ? 'valid' : 'invalid';
+                lowercaseRequirement.className = passwordCriteria.lowercase.test(value) ? 'valid' : 'invalid';
+                numberRequirement.className = passwordCriteria.number.test(value) ? 'valid' : 'invalid';
+                specialRequirement.className = passwordCriteria.special.test(value) ? 'valid' : 'invalid';
+                validateConfirmPassword();
+            }
+        
+            function validateConfirmPassword() {
+                if (confirmPassword.value === password.value) {
+                    confirmMessage.textContent = "Passwords match.";
+                    confirmMessage.className = 'valid';
+                } else {
+                    confirmMessage.textContent = "Passwords do not match.";
+                    confirmMessage.className = 'invalid';
+                }
+            }
+        
+            function handleFormSubmission(event) {
+                const newPassword = password.value;
+                const confirmNewPassword = confirmPassword.value;
+        
+                // If either password field is filled, validate both
+                if (newPassword || confirmNewPassword) {
+                    validatePassword();
+                    validateConfirmPassword();
+                    
+                    // Check if password meets all requirements
+                    const passwordValid = document.querySelectorAll('.valid').length === 6;
+        
+                    // Prevent form submission if password is not valid
+                    if (!passwordValid) {
+                        event.preventDefault();
+                        alert("Please make sure the password meets all requirements and both passwords match.");
+                        return;
+                    }
+                } else {
+                    // If both password fields are empty, reset their validation classes
+                    document.querySelectorAll('#passwordRequirements p').forEach(el => el.className = 'invalid');
+                    confirmMessage.className = '';
+                    confirmMessage.textContent = '';
+                }
+            }
+        
+            // Attach event listener for form submission
+            document.getElementById('ProfileEdit').addEventListener('submit', handleFormSubmission);
+        
+            // Attach event listeners for password input fields
+            password.addEventListener('input', validatePassword);
+            confirmPassword.addEventListener('input', validateConfirmPassword);
+            
+
+         //profile dropdown 
+       function toggleDropdown() {
+      var dropdown = document.getElementById("dropdownContent");
+      dropdown.style.display === "none" ? dropdown.style.display = "block" : dropdown.style.display = "none";
+    }
+
+    document.addEventListener("click", function(event) {
+     var dropdown = document.getElementById("dropdownContent");
+     var profilePicture = document.querySelector(".profile-picture");
+      if (!profilePicture.contains(event.target) && !dropdown.contains(event.target)) {
+           dropdown.style.display = "none";
+    }
+    });
+
+    function toggleDropdown1() {
+      var dropdown = document.getElementById("dropdownContent1");
+      dropdown.style.display = (dropdown.style.display === "none") ? "block" : "none";
+    }
+
+    document.addEventListener("click", function(event) {
+     var dropdown = document.getElementById("dropdownContent1");
+     var profilePicture = document.querySelector(".profile-picture1");
+      if (!profilePicture.contains(event.target) && !dropdown.contains(event.target)) {
+           dropdown.style.display = "none";
+    }
+    });
+    //profile dropdown end 
+        //sidebar
+        function showSidebar(){
+          const sidebar = document.querySelector('.sidebar')
+          sidebar.style.display = 'flex'
+        }
+        function hideSidebar(){
+          const sidebar = document.querySelector('.sidebar')
+          sidebar.style.display = 'none'
+        }
+        //end sidebar
+        
+    </script>
+    <%- include('partials/footer.ejs'); -%>
+
+
+    

@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" 
+    rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="stylesheet" href="../Style/TechnicianServices.css">
+    <title>Service Selection</title>
+</head>
+<body>
+ 
+<br>
+<br>
+<br>
+<br>
+<br>
+<div class="body-center">
+  <div class="flex-center">
+      <h1>Select Services</h1>
+      <form id="serviceForm" action="/Technician/Services" method="POST" onsubmit="return validateForm()">
+          <div class="Checkbox-div">
+              <input class="input-Text" type="checkbox" id="towing" name="services" value="1">
+              <label class="label1" for="towing">Towing Truck</label>
+               <!-- Price -->
+               <label class="Price-Tag">Price: </label>
+               <input class="Price-box" type="number" name="price" placeholder="JOD">
+          </div>
+          <div class="Checkbox-div">
+              <input class="input-Text" type="checkbox" id="tire-change" name="services" value="2">
+              <label class="label1" for="tire-change">Tire Change</label>
+               <!-- Price -->
+               <label class="Price-Tag">Price: </label>
+               <input class="Price-box" type="number" name="price" placeholder="JOD">
+          </div>
+          <div class="Checkbox-div">
+              <input class="input-Text" type="checkbox" id="oil-change" name="services" value="3">
+              <label class="label1" for="oil-change">Oil Change</label>
+               <!-- Price -->
+               <label class="Price-Tag">Price: </label>
+               <input class="Price-box" type="number" name="price" placeholder="JOD">
+          </div>
+          <div class="Checkbox-div">
+              <input class="input-Text" type="checkbox" id="battery-change" name="services" value="4">
+              <label class="label1" for="battery-change">Battery Change</label>
+               <!-- Price -->
+               <label class="Price-Tag">Price: </label>
+               <input class="Price-box" type="number" name="price" placeholder="JOD">
+          </div>
+          <div class="Checkbox-div">
+              <input class="input-Text" type="checkbox" id="underhood-problem" name="services" value="5">
+              <label class="label1" for="underhood-problem">UnderHood Problem</label>
+               <!-- Price -->
+               <label class="Price-Tag">Price: </label>
+               <input class="Price-box" type="number" name="price" placeholder="JOD" >
+          </div>
+          <h1 class="Error-input" id="Error-input1">Please select at least one service.</h1>
+          <h1 class="Error-input" id="Error-input2">Please enter a price for each selected service.</h1>
+          <button type="submit">Submit</button>
+      </form>
+  </div>
+</div>
+<script>
+     function validateForm() {
+    var checkboxes = document.querySelectorAll('input[type="checkbox"]');
+    var prices = document.querySelectorAll('.Price-box');
+    var Error1 = document.getElementById('Error-input1');
+    var Error2 = document.getElementById('Error-input2');
+    var isChecked = false;
+    var hasPrices = true;
+
+    checkboxes.forEach(function(checkbox, index) {
+        if (checkbox.checked) {
+            isChecked = true;
+            if (prices[index].value.trim() === '') {
+                hasPrices = false;
+            }
+        }
+    });
+
+    if (!isChecked) {
+      Error1.style.display ='block';
+      Error2.style.display ='none';
+      return false; // Prevent form submission
+    }
+
+    if (!hasPrices) {     
+      Error2.style.display ='block';
+      Error1.style.display ='none';
+      return false; // Prevent form submission
+    }
+
+    return true; // Allow form submission
+}
+
+    
+     //profile dropdown 
+     function toggleDropdown() {
+      var dropdown = document.getElementById("dropdownContent");
+      dropdown.style.display === "none" ? dropdown.style.display = "block" : dropdown.style.display = "none";
+    }
+
+    document.addEventListener("click", function(event) {
+     var dropdown = document.getElementById("dropdownContent");
+     var profilePicture = document.querySelector(".profile-picture");
+      if (!profilePicture.contains(event.target) && !dropdown.contains(event.target)) {
+           dropdown.style.display = "none";
+    }
+    });
+
+    function toggleDropdown1() {
+      var dropdown = document.getElementById("dropdownContent1");
+      dropdown.style.display === "none" ? dropdown.style.display = "block" : dropdown.style.display = "none";
+    }
+
+    document.addEventListener("click", function(event) {
+     var dropdown = document.getElementById("dropdownContent1");
+     var profilePicture = document.querySelector(".profile-picture1");
+      if (!profilePicture.contains(event.target) && !dropdown.contains(event.target)) {
+           dropdown.style.display = "none";
+    }
+    });
+    //profile dropdown end 
+        //sidebar
+        function showSidebar(){
+          const sidebar = document.querySelector('.sidebar')
+          sidebar.style.display = 'flex'
+        }
+        function hideSidebar(){
+          const sidebar = document.querySelector('.sidebar')
+          sidebar.style.display = 'none'
+        }
+        
+        document.addEventListener('scroll', () => {
+          const nav =document.querySelector('nav');
+          const logo =document.querySelector('.logo-transparent')
+          
+          if(window.scrollY > 1){
+            nav.classList.add('scrolled');
+            logo.classList.add('scrolled');
+          } else {
+            nav.classList.remove('scrolled');
+            logo.classList.remove('scrolled');
+          }
+        });
+
+</script>
+
+</body>
+</html>

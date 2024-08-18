@@ -1,0 +1,320 @@
+<head>
+  <title>Workshop location</title>
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
+  <link rel="stylesheet" href="../../Style/map.css">
+  <style>
+    /* Loader Wrapper */
+ #loader-wrapper {
+   position: fixed;
+   top: 0;
+   left: 0;
+   width: 100%;
+   height: 100%;
+   z-index: 1034;
+   background-color: transparent;
+   visibility: visible;
+   transition: all 2s 4s ease-out;
+ }
+
+ /* Loader */
+ #loader {
+   display: block;
+   position: relative;
+   left: 50%;
+   top: 50%;
+   width: 150px;
+   height: 150px;
+   margin: -75px 0 0 -75px;
+   border-radius: 50%;
+   border: 3px solid transparent;
+   border-top-color: #06b2fa;
+   animation: spin 1s linear infinite;
+   z-index: 1034;
+ }
+
+ #loader:before,
+ #loader:after {
+   content: "";
+   position: absolute;
+   border-radius: 50%;
+   border: 3px solid transparent;
+ }
+
+ #loader:before {
+   top: 5px;
+   left: 5px;
+   right: 5px;
+   bottom: 5px;
+   border-top-color: #fff;
+   animation: spin 2s linear infinite;
+ }
+
+ #loader:after {
+   top: 15px;
+   left: 15px;
+   right: 15px;
+   bottom: 15px;
+   border-top-color: #0897f3;
+   animation: spin 1.5s linear infinite;
+ }
+
+ @keyframes spin {
+   0% {
+     transform: rotate(0deg);
+   }
+   100% {
+     transform: rotate(360deg);
+   }
+ }
+
+ /* Loader Sections */
+ .loader-section {
+   position: fixed;
+   top: 0;
+   width: 50%;
+   height: 100%;
+   background: transparent;
+   z-index: 1032;
+   transition: all 0.7s 0.7s cubic-bezier(0.645, 0.045, 0.355, 1);
+ }
+
+ .loader-section.section-left {
+   left: 0;
+ }
+
+ .loader-section.section-right {
+   right: 0;
+ }
+
+ /* Loader Wrapper Transition on Loaded */
+ .loaded #loader-wrapper {
+   visibility: hidden;
+   transform: translateY(-100%);
+   transition: all 0.7s 1s ease-out;
+ }
+
+ /* Loader Transition on Loaded */
+ .loaded #loader {
+   opacity: 0;
+   transition: all 1s ease-out;
+ }
+
+ /* Loader Sections Transition on Loaded */
+ .loaded .loader-section.section-left {
+   transform: translateX(-100%);
+ }
+
+ .loaded .loader-section.section-right {
+   transform: translateX(100%);
+ }
+ </style>  
+</head>
+<body>
+  <form id="geocodeForm" action="/Technician/Map" method="POST">
+      <input type="hidden" name="geocode_result" id="geocodeResult">
+  </form>
+       <!-- Screen lazy loding  -->
+       <div id="loader-wrapper">
+        <div id="loader"></div>
+        <div class="loader-section section-left"></div>
+        <div class="loader-section section-right"></div>
+      </div>
+    
+      <script>
+          // Screen Loader
+          document.addEventListener('DOMContentLoaded', function() {
+            document.body.classList.add('loaded');
+          });  
+      </script>
+      
+        <form id="geocodeForm" action="/Technician/Map" method="POST">
+            <input type="hidden" name="geocode_result" id="geocodeResult">
+        </form>
+         <!-- Technicina Header Inside -->
+  <%- include('partials/TechnicinaHeaderInside.ejs',{user:user}); -%>
+ 
+  <div id="map"></div>
+  <!-- 
+    The `defer` attribute causes the callback to execute after the full HTML
+    document has been parsed. For non-blocking uses, avoiding race conditions,
+    and consistent behavior across browsers, consider loading using Promises.
+    See https://developers.google.com/maps/documentation/javascript/load-maps-js-api
+    for more information.
+    -->
+    <script src="https://maps.googleapis.com/maps/api/js?key=yourAPIKEY&callback=initMap&v=weekly"defer></script>
+<script>
+    //profile dropdown 
+    function toggleDropdown() {
+      var dropdown = document.getElementById("dropdownContent");
+      dropdown.style.display === "none" ? dropdown.style.display = "block" : dropdown.style.display = "none";
+    }
+
+    document.addEventListener("click", function(event) {
+     var dropdown = document.getElementById("dropdownContent");
+     var profilePicture = document.querySelector(".profile-picture");
+      if (!profilePicture.contains(event.target) && !dropdown.contains(event.target)) {
+           dropdown.style.display = "none";
+    }
+    });
+
+    function toggleDropdown1() {
+      var dropdown = document.getElementById("dropdownContent1");
+      dropdown.style.display === "none" ? dropdown.style.display = "block" : dropdown.style.display = "none";
+    }
+
+    document.addEventListener("click", function(event) {
+     var dropdown = document.getElementById("dropdownContent1");
+     var profilePicture = document.querySelector(".profile-picture1");
+      if (!profilePicture.contains(event.target) && !dropdown.contains(event.target)) {
+           dropdown.style.display = "none";
+    }
+    });
+    //profile dropdown end 
+        //sidebar
+        function showSidebar(){
+          const sidebar = document.querySelector('.sidebar')
+          sidebar.style.display = 'flex'
+        }
+        function hideSidebar(){
+          const sidebar = document.querySelector('.sidebar')
+          sidebar.style.display = 'none'
+        }
+        
+        document.addEventListener('scroll', () => {
+          const nav =document.querySelector('nav');
+          const logo =document.querySelector('.logo-transparent')
+          
+          if(window.scrollY > 1){
+            nav.classList.add('scrolled');
+            logo.classList.add('scrolled');
+          } else {
+            nav.classList.remove('scrolled');
+            logo.classList.remove('scrolled');
+          }
+        });
+
+
+
+
+    let map;
+  let marker;
+  let geocoder;
+  let response;
+  let responseDiv;
+
+// Global variable to store the last geocode result
+let lastGeocodeResult = null;
+
+function initMap() {
+  // Initialize the map
+  map = new google.maps.Map(document.getElementById("map"), {
+      zoom: 12,
+      center: { lat: 31.963158, lng: 35.930359 },
+      mapTypeControl: false,
+  });
+
+  geocoder = new google.maps.Geocoder();
+
+  // Input field for entering a location
+  const inputText = document.createElement("input");
+  inputText.type = "text";
+  inputText.placeholder = "Enter a location";
+
+  // Button to trigger geocoding based on the input value
+  const searchButton = document.createElement("input");
+  searchButton.type = "button";
+  searchButton.value = "Search";
+  searchButton.classList.add("button", "button-primary");
+
+  // Button to clear the map
+  const clearButton = document.createElement("input");
+  clearButton.type = "button";
+  clearButton.value = "Clear";
+  clearButton.classList.add("button", "button-secondary");
+
+  // Button to reset the map
+  const resetMapButton = document.createElement("input");
+  resetMapButton.value = "Reset Map";
+  resetMapButton.type = "button";
+  resetMapButton.classList.add("button", "button-tertiary");
+
+  // Button to submit the most recent geocode result
+  const submitButton = document.createElement("input");
+  submitButton.type = "button";
+  submitButton.value = "Submit";
+  submitButton.classList.add("button", "button-success");
+
+  // Display area for responses
+
+
+  // Add controls to the map
+  map.controls[google.maps.ControlPosition.TOP_LEFT].push(inputText);
+  map.controls[google.maps.ControlPosition.TOP_LEFT].push(searchButton);
+  map.controls[google.maps.ControlPosition.TOP_LEFT].push(submitButton);
+  map.controls[google.maps.ControlPosition.TOP_LEFT].push(clearButton);
+  map.controls[google.maps.ControlPosition.TOP_LEFT].push(resetMapButton);
+
+  marker = new google.maps.Marker({
+      map: map,
+  });
+
+  map.addListener("click", (e) => {
+      geocode({ location: e.latLng });
+  });
+
+  // Event listener for the search button
+  searchButton.addEventListener("click", () => {
+      geocode({ address: inputText.value });
+  });
+
+  // Event listener for the clear button
+  clearButton.addEventListener("click", () => {
+      clear();
+  });
+
+  // Event listener for the reset map button
+  resetMapButton.addEventListener("click", () => {
+      clear();
+      map.setCenter({ lat: 31.963158, lng: 35.930359 });
+      map.setZoom(12);
+  });
+
+  // Event listener for the submit button to use the last geocode result
+  submitButton.addEventListener("click", () => {
+              if (lastGeocodeResult) {
+                  const geocodeResultField = document.getElementById("geocodeResult");
+
+                  // Store the geocode result in the hidden input field
+                  geocodeResultField.value = JSON.stringify(lastGeocodeResult,null,2);
+
+                  const form = document.getElementById("geocodeForm");
+                  form.submit(); // Submit the form to send data
+              } else {
+                  alert("No geocode result available. Please use the search button first.");
+              }
+          });
+
+  clear(); // Initial clear when the map is loaded
+}
+
+function clear() {
+  marker.setMap(null); // Remove the marker from the map
+   // Hide the response display area
+  lastGeocodeResult = null; // Clear the last geocode result
+}
+
+function geocode(request) {
+  geocoder.geocode(request, (results, status) => {
+      if (status === "OK" && results.length > 0) {
+          marker.setMap(map); // Add marker to the map
+          marker.setPosition(results[0].geometry.location); // Set marker position // Display geocode result
+          lastGeocodeResult = results[0]; // Store the last geocode result
+      } else {
+          console.error("Geocoding failed:", status);
+      }
+  });
+}
+
+window.initMap = initMap;
+  </script>
+</body>

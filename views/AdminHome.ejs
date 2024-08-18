@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../Style/admin.css">
+    
+    <title>Admin</title>
+</head>
+
+
+
+<body>
+    
+    <div class="container">
+        <div><h1>Admin Dashboard</h1></div>
+    <div class="tab_box">
+        <button class="tab_btn active">Driver</button>
+        <button class="tab_btn">Workshop</button>
+        <button class="tab_btn">Admin</button>
+        <button class="tab_btn">Feedback</button>
+        <button class="tab_btn">Request</button>
+        <div class="line"></div>
+    </div>
+    <div class="content_box">
+        <div class="content active">
+            <div class="table-scroll">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Phone Number</th>
+                            <th>Fee</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% drivers.forEach(function(driver) { %>
+                        <tr>
+                            <td><%= driver.user_id %></td>
+                            <td><%= driver.username %></td>
+                            <td><%= driver.email %></td>
+                            <td><%= driver.phone_number %></td>
+                            <td><%= driver.fee %></td>
+                        <td>
+                            <form action="/Admin/DeleteDriver" method="POST">
+                                <input type="hidden" name="user_id" value="<%= driver.user_id%>">
+                                <button type="submit" class="tab_btnDelet">Delete</button>
+                        </form>
+                        </td>
+                    </tr>
+                    <% }) %>
+                    </tbody>
+        </table>
+        </div>
+        </div>
+        <div class="content">
+            <div class="table-scroll">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Phone Number</th>
+                            <th>Location</th>
+                            <th>Certificate</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% workshops.forEach(function(workshop) { %>
+                        <tr>
+                            <td><%= workshop.user_id %></td>
+                            <td><%= workshop.username %></td>
+                            <td><%= workshop.email %></td>
+                            <td><%= workshop.phone_number %></td>
+                            <td><%= workshop.location.x %> , <%= workshop.location.y %></td>
+                            <td><%= workshop.certificate %></td>
+                        <td>
+                            <form action="/Admin/DeleteWorkshop" method="POST">
+                                <input type="hidden" name="workshop_id" value="<%= workshop.user_id%>">
+                                <button type="submit" class="tab_btnDelet">Delete</button>
+                            </form>
+                        </td>
+                    </tr>
+                    <% }) %>
+                    </tbody>
+        </table>
+        </div>
+        </div>
+
+        <div class="content">
+            <div class="table-scroll">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Status</th>
+                            <th>Created by</th>
+                            <th>Updated by</th>
+                            <th>Canceled by</th>
+                            <th>Role</th>
+                            <%= user.role%>
+                            <% if (user.role==="super_admin") { %>
+                                <th>Action</th>
+                            <% } %>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% admins.forEach(function(admin) { %>
+                            <tr>
+                                <td><%= admin.admin_id %></td>
+                                <td><%= admin.username %></td>
+                                <td><%= admin.email %></td>
+                                <td><%= admin.status %></td>
+                                <td><%= admin.created_by || 0 %></td>
+                                <td><%= admin.updated_by || 0 %></td>
+                                <td><%= admin.canceled_by || 0 %></td>
+                                <td><%= admin.role %></td>
+                                <% if (user.role==="super_admin") { %>
+                                    <td>
+                                        <% if (admin.created_by===null) { %>
+                                            <form action="/Admin/ApproveAdmin" method="POST" style="display:inline-block;">
+                                                <input type="hidden" name="admin_id" value="<%= admin.admin_id %>">
+                                                <button type="submit" class="btn-success">Approve</button>
+                                            </form>
+                                        <% } %>
+                                        <% if (admin.canceled_by===null) { %>
+                                            <form action="/Admin/CancelApproveAdmin" method="POST" style="display:inline-block;">
+                                                <input type="hidden" name="admin_id" value="<%= admin.admin_id %>">
+                                                <button type="submit" class="btn-cancel">Cancel</button>
+                                            </form>
+                                        <% } %>
+                                    </td>
+                                <% } %>
+                            </tr>
+                        <% }) %>
+                    </tbody>
+        </table>
+        </div>
+        </div>
+        <div class="content">
+            <div class="table-scroll">
+                <table class="table table-striped">
+                    <thead>
+                        
+                        <tr>
+                            <th>FeedBack ID</th>
+                            <th>Request ID</th>
+                            <th>Workshop ID</th>
+                            <th>Comments</th>
+                            <th>Rating</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% feedbacks.forEach(function(feedback) { %>
+                            <tr>
+                                <td><%= feedback.feedback_id %></td>
+                                <td><%= feedback.request_id %></td>
+                                <td><%= feedback.workshop_id %></td>
+                                <td><%= feedback.description %></td>
+                                <td><%= feedback.rate %></td>
+                            </tr>
+                        <% }) %>
+                    </tbody>
+        </table>
+        
+        </div>
+        </div>
+        <div class="content">
+            <div class="table-scroll">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Request ID</th>
+                            <th>Driver ID</th>
+                            <th>Workshop ID</th>
+                            <th>Comments</th>
+                            <th>Location</th>
+                            <th>Workshop Arrived</th>
+                            <th>Workshop Completed</th>
+                            <th>Pending</th>
+                            <th>FeedBack</th>
+                            <th>Price</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% requests.forEach(function(request) { %>
+                            <tr>
+                                <td><%= request.request_id %></td>
+                                <td><%= request.user_id %></td>
+                                <td><%= request.workshop_id || 0  %></td>
+                                <td><%= request.description  %></td>
+                                <td><%= request.location.x %>,<%= request.location.y %></td>
+                                <td><%= request.workshop_arrived%></td>
+                                <td><%= request.completed %></td>
+                                <td><%= request.pending%></td>
+                                <td><%= request.feedback_id  || 0 %></td>
+                                <td><%= request.price || 0  %></td>
+                                <td>
+                                    <form action="/Admin/DeleteRequest" method="POST" style="display:inline-block;">
+                                        <input type="hidden" name="request_id" value="<%= request.request_id %>">
+                                        <button type="submit" class="tab_btnDelet">Delete</button>
+                                    </form>
+                                </td>
+                            </tr>
+                        <% }) %>
+                    </tbody>
+        </table>
+        
+        </div>
+        </div>
+    </div>
+    <form action="/Admin/Logout" method="get">
+        <button type="submit" class="btn-logout">Logout</button>
+    </form>
+</div>
+<script>
+    const tabs = document.querySelectorAll('.tab_btn');
+    const all_content = document.querySelectorAll('.content');
+    tabs.forEach((tab,index)=>{
+        tab.addEventListener('click',(e)=>{
+            tabs.forEach(tab=>{tab.classList.remove('active')});
+            tab.classList.add('active');
+
+            var line = document.querySelector('.line');
+             line.style.width = e.target.offsetWidth + "px";
+             line.style.left = e.target.offsetLeft + "px";
+             all_content.forEach(content=>{content.classList.remove('active')});
+             all_content[index].classList.add('active');
+        })
+       
+
+    })
+</script>
+    
+</body>
+</html>

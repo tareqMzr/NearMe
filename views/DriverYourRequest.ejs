@@ -1,0 +1,630 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Your Request</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css" integrity="sha512-5A8nwdMOWrSz20fDsjczgUidUBR8liPYU+WymTZP1lmY9G6Oc7HlZv156XqnsgNUzTyMefFTcsFH/tnJE/+xBg==" crossorigin="anonymous" referrerpolicy="no-referrer">
+  <link rel="stylesheet" href="../Style/DriverYourRequest.css">
+  <style>
+    /* Loader Wrapper */
+ #loader-wrapper {
+   position: fixed;
+   top: 0;
+   left: 0;
+   width: 100%;
+   height: 100%;
+   z-index: 1034;
+   background-color: transparent;
+   visibility: visible;
+   transition: all 2s 4s ease-out;
+ }
+
+ /* Loader */
+ #loader {
+   display: block;
+   position: relative;
+   left: 50%;
+   top: 50%;
+   width: 150px;
+   height: 150px;
+   margin: -75px 0 0 -75px;
+   border-radius: 50%;
+   border: 8px solid transparent;
+   border-top-color: #06b2fa;
+   animation: spin 1s linear infinite;
+   z-index: 1034;
+ }
+
+ #loader:before,
+ #loader:after {
+   content: "";
+   position: absolute;
+   border-radius: 50%;
+   border: 8px solid transparent;
+ }
+
+ #loader:before {
+   top: 5px;
+   left: 5px;
+   right: 5px;
+   bottom: 5px;
+   border-top-color: #2e2e2e;
+   animation: spin 2s linear infinite;
+ }
+
+ #loader:after {
+   top: 15px;
+   left: 15px;
+   right: 15px;
+   bottom: 15px;
+   border-top-color: #0897f3;
+   animation: spin 1.5s linear infinite;
+ }
+
+ @keyframes spin {
+   0% {
+     transform: rotate(0deg);
+   }
+   100% {
+     transform: rotate(360deg);
+   }
+ }
+
+ /* Loader Sections */
+ .loader-section {
+   position: fixed;
+   top: 0;
+   width: 50%;
+   height: 100%;
+   background: transparent;
+   z-index: 1032;
+   transition: all 0.7s 0.7s cubic-bezier(0.645, 0.045, 0.355, 1);
+ }
+
+ .loader-section.section-left {
+   left: 0;
+ }
+
+ .loader-section.section-right {
+   right: 0;
+ }
+
+ /* Loader Wrapper Transition on Loaded */
+ .loaded #loader-wrapper {
+   visibility: hidden;
+   transform: translateY(-100%);
+   transition: all 0.7s 1s ease-out;
+ }
+
+ /* Loader Transition on Loaded */
+ .loaded #loader {
+   opacity: 0;
+   transition: all 1s ease-out;
+ }
+
+ /* Loader Sections Transition on Loaded */
+ .loaded .loader-section.section-left {
+   transform: translateX(-100%);
+ }
+
+ .loaded .loader-section.section-right {
+   transform: translateX(100%);
+ }
+ </style>  
+</head>
+<body>
+        <!-- Screen lazy loding  -->
+        <div id="loader-wrapper">
+          <div id="loader"></div>
+          <div class="loader-section section-left"></div>
+          <div class="loader-section section-right"></div>
+      </div>
+      <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+      <script>
+      // Screen Loader
+      document.addEventListener('DOMContentLoaded', function() {
+          document.body.classList.add('loaded');
+      }); 
+      </script>
+
+
+   <!-- DriverHeader -->
+   <%- include('partials/DriverHeader.ejs',{user:user.user}); -%>
+
+  
+   <div id="map"></div>
+
+   <% if (user.request.workshop_id!==null&&user.request.pending==true) { %>
+    <div id="ConfirmModle" class="modal" style="display: block;">
+      <div class="modal-content">
+        <form id="confirmationForm" method="post" action="/Driver/CancelTechnician">
+          <h4>You want to Accept this Technician</h4>
+          <br> 
+            <p>Technician Name: <%= workshop.Technician.username%></p>
+            <p>Rate: <%= workshop.Rate %>/5</p>          
+            <p>Price: <%= user.request.price %> JOD</p>
+          <div id="modalData"></div>
+          <div class="Button_center">
+            <button id="ConfirmModleyes" class="modal-button yes" onclick="handleYes()" type="button">Yes</button>
+            <button id="ConfirmModleno"  class="modal-button no"  onclick="handleNo()" type="button">No</button>
+          </div>
+        </form>
+      </div>
+    </div>
+   <% } %>
+  
+   <div class="container px-1 px-md-4 py-5 mx-auto">
+    <div class="card">
+      <div class="row d-flex justify-content-between px-3 top">
+        <div class="d-flex1">
+          <h5>Request id: #<span class="text-primary font-weight-bold"><%=user.request.request_id%></span></h5>
+        </div>
+<!-- Here (start) -->
+        <!-- you need to put a flag here becouse the username is not accessable unless the driver accepts the technican -->
+        <% if (user.request.pending==false&&user.request.workshop_id!==null) { %> 
+        <div class="d-flex flex-column text-sm-right">
+          <h5 >
+            Workshop Name:  <span class="font-weight-bold" ><%=workshop.Technician.username %> </span>
+          </h5>
+          <h5>
+            Workshop PhoneNumber: <span class="font-weight-bold"><%=workshop.Technician.phone_number %></span>
+          </h5>
+          <h5 >
+            Distance: <span class="font-weight-bold"><%= workshop.distance.distance.text %></span>
+          </h5>
+          <h5 style="margin-bottom: 0px;">
+            Estimated Time: <span class="font-weight-bold"><%= workshop.distance.duration.text %></span>
+          </h5>
+          <!-- Request Price is not avaliable (FIX) -->
+           <h5 style="margin-bottom: 0px; margin-top: 5px;">
+            Price: <span class="font-weight-bold"> <%= workshop.price %> JOD</span>
+          </h5> 
+        </div>
+        <% } %>
+
+<!-- Here (end) -->
+
+
+      </div>
+      <input type="hidden" name="Processed_result" id="ProcessedResult" value="<%=Processed%>">
+      <input type="hidden" name="Accepted_result" id="AcceptedResult" value="<%=Accepted%>">
+      <input type="hidden" name="Techroute_result" id="TechrouteResult" value="<%=Techroute%>">
+      <input type="hidden" name="Arrived_result" id="ArrivedResult" value="<%=Arrived%>">
+      <input type="hidden" name="Arrived_result" id="workshopdata" value="<%=JSON.stringify(workshop,null,2)%>">
+      <input type="hidden" name="Arrived_result" id="userdata" value="<%=JSON.stringify(user,null,2)%>">
+      <div class="row d-flex justify-content-center">
+        <div class="col-12">
+          <ul id="progressbar" class="text-center">
+            <li id="step0" class="active step0">Processed</li>
+            <li id="step1" class="active step0">Accepted</li>
+            <li id="step2" class="active step0">Technician is on there way</li>
+            <li id="step3" class="active step0">Arrived</li>
+          </ul>
+        </div>
+      </div>
+      <div class="row justify-content-between top">
+        <div class="row d-flex icon-content">
+          <img src="/Assets/Icons/Proccessed.png" alt="" class="icon" />
+          <div class="d-flex flex-column">
+            <p class="font-weight-bold">Request <br/>Processed</p>
+          </div>
+        </div>
+        <div class="row d-flex icon-content">
+          <img src="/Assets/Icons/Accepted.png" alt="" class="icon" />
+          <div class="d-flex flex-column">
+            <p class="font-weight-bold">Request <br/>Accepted</p>
+          </div>
+        </div>
+        <div class="row d-flex icon-content">
+          <img src="/Assets/Icons/OnTheWay.png" alt="" class="icon" />
+          <div class="d-flex flex-column">
+            <p class="font-weight-bold">Technician <br/>is on the way</p>
+          </div>
+        </div>
+        <div class="row d-flex icon-content">
+          <img src="/Assets/Icons/Arrived1.png" alt="" class="icon" />
+          <div class="d-flex flex-column">
+            <p class="font-weight-bold">Technician<br/> Has Arrived</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <% if (!Arrived) { %>
+    <div class="center_cancel">
+      <!-- Form 3 when the technician is having a technical difficulties or the driver is not respowning or not in the location -->
+      <button class="button_common2" onclick="showCancelModal()" type="button">
+       <h1 class="h1q">Cancel Your Requset?</h1>
+     </button>
+     </div>
+  <% } %>
+   <!-- The Cancel Modal -->
+   <div id="cancelModal" class="modal">
+    <div class="modal-content">
+      <form action="/Driver/CancelYourRequest" method ="post">
+      <h4>Are you sure you want to cancel the request? <br><span class="span_cancel">Note: Canceling will result in a fee penalty on your account.</span></h4> 
+      <div class="Button_center">
+        <button class="modal-button yes" type="submit" >Yes</button>
+        <button class="modal-button no"  onclick="cancelFormSubmission(event)">No</button>
+      </div>
+      </form>
+    </div>
+  </div>
+<!-- //Your order was canceled. A [amount] fee has been applied. -->
+
+  <!-- The Confirmation Modal -->
+  <div id="confirmationModal" class="modal1">
+    <div class="modal-content1">
+      <p>Your order was canceled. A [<span style="color: green;">5JOD</span>] fee has been applied.</p>
+      <div class="Button_center">
+        <button class="modal-button ok" onclick="redirectToPage()">OK</button>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- Error message value -->
+  <!-- <input type="hidden" name="suc" id="error" value="<%# REMOVE COMMENT er %>"> REMOVE COMMENT -->
+
+
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="https://maps.googleapis.com/maps/api/js?key=yourAPIKEY&callback=initMap&v=weekly"defer></script>
+  <script>
+
+
+      //Error message value
+     // const error  = document.getElementById("error").value;
+      // if(typeof error !== 'undefined' && error !== null && error !== ''){
+      //     let timerInterval;
+      //     Swal.fire({
+      //     icon: "error",
+      //     title: error,
+      //     position: "top",
+      //     timer: 2000,
+      //     timerProgressBar: true,
+      //     didOpen: () => {
+      //       Swal.showLoading();
+      //       const timer = Swal.getPopup().querySelector("b");
+      //       timerInterval = setInterval(() => {
+      //           timer.textContent = `${Swal.getTimerLeft()}`;
+      //         }, 100);
+      //         },
+      //         willClose: () => {
+      //         clearInterval(timerInterval);
+      //         }
+      //       })
+      //       .then((result) => {
+      //           /* Read more about handling dismissals below */
+      //           if (result.dismiss === Swal.DismissReason.timer) {
+      //           console.log("I was closed by the timer");
+      //       }
+      //   });
+      // }
+
+            //Io
+      const userdataValue = document.getElementById("userdata").value;
+      const userArray=JSON.parse(userdataValue);
+      var socket = io();
+      
+      socket.on(`on-updates-${userArray.user.user_id}`, (message) => {
+        location.reload();
+      });
+      socket.on(`accepet-decline-${userArray.user.user_id}`, (data)=>{
+        location.reload();
+        //showConfirmModal(data);
+      });
+      socket.on(`service-completed-${userArray.user.user_id}`, (message) => {
+        window.location.href = '/Driver/Feedback';
+      });
+      socket.on('connect', () => {
+        console.log('connected to server');
+      });
+      socket.on('disconnect', () => {
+        console.log('disconnected from server');
+      });
+
+      function handleYes() {
+        // Change the form action to /Driver/Accept
+        document.getElementById("confirmationForm").action = "/Driver/Accept";
+
+        // Submit the form
+        document.getElementById("confirmationForm").submit();
+      }
+
+      function handleNo() {
+        // Change the form action to /Driver/CancelTechnician
+        document.getElementById("confirmationForm").action = "/Driver/CancelTechnician";
+
+        // Submit the form
+        document.getElementById("confirmationForm").submit();
+      }
+
+    function showConfirmModal(data) {
+      const modalDataDiv = document.getElementById('modalData');
+      modalDataDiv.innerHTML = `
+          <p>Technician Name: ${data.workshop.username}</p>
+          <p>Price: ${data.price}</p>
+      `;
+      document.getElementById('ConfirmModle').style.display = "block";
+    }
+    function closeConfirmModal() {
+        document.getElementById('ConfirmModle').style.display = "none";
+    }
+    //cancel button
+    // Show the Cancel modal
+    function showCancelModal() {
+      document.getElementById('cancelModal').style.display = "block";
+    }
+
+      // Close the Cancel modal
+      function closeCancelModal() {
+      document.getElementById('cancelModal').style.display = "none";
+    }
+    function cancelFormSubmission(event) {
+            // Prevent the form from submitting
+            event.preventDefault();
+            closeCancelModal();
+    }
+     // Redirect to another page
+     function redirectToPage() {
+      window.location.href = "/Driver/Home"; // Change "/" to the desired URL
+    }
+     // Show the Confirmation modal
+     function showConfirmationModal() {
+      document.getElementById('confirmationModal').style.display = "block";
+    }
+
+    // Handle confirmation of cancellation
+    function confirmCancel() {
+      closeCancelModal();
+      showConfirmationModal();
+    }
+    //profile dropdown 
+    function toggleDropdown() {
+      var dropdown = document.getElementById("dropdownContent");
+      dropdown.style.display === "none" ? dropdown.style.display = "block" : dropdown.style.display = "none";
+    }
+
+    document.addEventListener("click", function(event) {
+     var dropdown = document.getElementById("dropdownContent");
+     var profilePicture = document.querySelector(".profile-picture");
+      if (!profilePicture.contains(event.target) && !dropdown.contains(event.target)) {
+           dropdown.style.display = "none";
+    }
+    });
+
+    function toggleDropdown1() {
+      var dropdown = document.getElementById("dropdownContent1");
+      dropdown.style.display === "none" ? dropdown.style.display = "block" : dropdown.style.display = "none";
+    }
+
+    document.addEventListener("click", function(event) {
+     var dropdown = document.getElementById("dropdownContent1");
+     var profilePicture = document.querySelector(".profile-picture1");
+      if (!profilePicture.contains(event.target) && !dropdown.contains(event.target)) {
+           dropdown.style.display = "none";
+    }
+    });
+    //profile dropdown end 
+        //sidebar
+        function showSidebar(){
+          const sidebar = document.querySelector('.sidebar')
+          sidebar.style.display = 'flex'
+        }
+        function hideSidebar(){
+          const sidebar = document.querySelector('.sidebar')
+          sidebar.style.display = 'none'
+        }
+        //end sidebar
+        
+    document.addEventListener("DOMContentLoaded", function() {
+      function fetchOrderStatus() {
+
+        const processedResult = document.getElementById("ProcessedResult").value;
+        const acceptedResult = document.getElementById("AcceptedResult").value;
+        const techrouteResult = document.getElementById("TechrouteResult").value;
+        const arrivedResult = document.getElementById("ArrivedResult").value;
+        
+        const status={
+          Processed: JSON.parse(processedResult),
+          Accepted: JSON.parse(acceptedResult),
+          Techroute: JSON.parse(techrouteResult),
+          Arrived: JSON.parse(arrivedResult)
+        };
+        updateProgressBar(status);
+      }
+
+
+
+      // Function to update progress bar based on order status
+      function updateProgressBar(status) {
+        const steps = ['Processed', 'Accepted', 'Techroute', 'Arrived'];
+
+        steps.forEach((step, index) => {
+          const li = document.getElementById(`step${index}`);
+          if (status[step]) {
+            li.classList.add('active');
+          } else {
+            li.classList.remove('active');
+          }
+        });
+      }
+
+      // Initial fetch to get order status when the page loads
+      fetchOrderStatus();
+      UpdateCardData();
+    });
+    
+     //Card Data
+     function UpdateCardData(){
+
+      const workshopValue = document.getElementById("workshopdata").value;
+      const userdataValue = document.getElementById("userdata").value;
+      const workshopArray = JSON.parse(workshopValue);
+      const userArray=JSON.parse(userdataValue);
+      console.log(workshopArray);
+      console.log("aaa");
+      console.log(userdataValue);
+      // Display Requset_Id on the screen
+      var Requset_id = document.getElementById('Requset_id');
+      var Workshop_Name = document.getElementById('Workshop_Name');
+      var request_duration = document.getElementById('request_duration');
+      var workshop_phonenumber =document.getElementById('Workshop_phonenumber');
+      //var request_price = document.getElementById('request_price');
+
+      Requset_id.innerText = JSON.stringify(userArray.request.request_id, null, 2);
+      Workshop_Name.innerText = JSON.stringify(workshopArray.Technician.username, null, 2); 
+      request_duration.innerText = JSON.stringify(workshopArray.distance.elements[0].duration.text, null, 2);
+      workshop_phonenumber.innerText = JSON.stringify(workshopArray.Technician.phone_number, null, 2);
+      //request_price.innerText = JSON.stringify(workshopArray, null, 2);
+
+}
+  
+    //profile dropdown 
+    function toggleDropdown() {
+      var dropdown = document.getElementById("dropdownContent");
+      dropdown.style.display === "none" ? dropdown.style.display = "block" : dropdown.style.display = "none";
+    }
+
+    document.addEventListener("click", function(event) {
+     var dropdown = document.getElementById("dropdownContent");
+     var profilePicture = document.querySelector(".profile-picture");
+      if (!profilePicture.contains(event.target) && !dropdown.contains(event.target)) {
+           dropdown.style.display = "none";
+    }
+    });
+
+    function toggleDropdown1() {
+      var dropdown = document.getElementById("dropdownContent1");
+      dropdown.style.display === "none" ? dropdown.style.display = "block" : dropdown.style.display = "none";
+    }
+
+    document.addEventListener("click", function(event) {
+     var dropdown = document.getElementById("dropdownContent1");
+     var profilePicture = document.querySelector(".profile-picture1");
+      if (!profilePicture.contains(event.target) && !dropdown.contains(event.target)) {
+           dropdown.style.display = "none";
+    }
+    });
+    //profile dropdown end 
+        //sidebar
+        function showSidebar(){
+          const sidebar = document.querySelector('.sidebar')
+          sidebar.style.display = 'flex'
+        }
+        function hideSidebar(){
+          const sidebar = document.querySelector('.sidebar')
+          sidebar.style.display = 'none'
+        }
+        
+        document.addEventListener('scroll', () => {
+          const nav =document.querySelector('nav');
+          const logo =document.querySelector('.logo-transparent')
+          
+          if(window.scrollY > 1){
+            nav.classList.add('scrolled');
+            logo.classList.add('scrolled');
+          } else {
+            nav.classList.remove('scrolled');
+            logo.classList.remove('scrolled');
+          }
+        });
+        
+//Map
+function initMap(){
+  const userdataValue = document.getElementById("userdata").value;
+  const userArray=JSON.parse(userdataValue);
+  const map = new google.maps.Map(document.getElementById("map"), {
+    zoom: 14,
+    center: { lat: userArray.request.location.x, lng:  userArray.request.location.y },
+    disableDefaultUI: false
+
+  });
+  setMarkers(map);
+}
+
+// Data for the markers consisting of a name, a LatLng and a zIndex for the
+// order in which these markers should display on top of each other.
+
+function setMarkers(map) {
+  const workshopValue = document.getElementById("workshopdata").value;
+  const userdataValue = document.getElementById("userdata").value;
+  const workshopArray = JSON.parse(workshopValue);
+  const userArray = JSON.parse(userdataValue);
+  const driverIconSize = new google.maps.Size(50, 50); // Size for driver icon
+  const workshopIconSize = new google.maps.Size(30, 50); // Size for workshop icon (larger)  
+
+  if (workshopArray.length === undefined) {
+    var locations = [
+      {lat: userArray.request.location.x, lng: userArray.request.location.y}, // First location
+      {lat: workshopArray.Technician.location.x, lng: workshopArray.Technician.location.y}  // Second location
+    ];
+    // Create markers for each location
+    var markers = locations.map(function(location, index) {
+      return new google.maps.Marker({
+        position: location,
+        map: map,
+        icon: {
+          url: index === 0 ? '../Assets/Icons/Driver-icon.png' : '../Assets/Icons/workshop-icon.png', // Custom icons
+          scaledSize: index === 0 ? driverIconSize : workshopIconSize // Set different icon sizes
+        }
+      });
+    });
+    // Draw a route between the two locations
+    var directionsService = new google.maps.DirectionsService();
+    var directionsRenderer = new google.maps.DirectionsRenderer({
+      map: map,
+        suppressMarkers: true, // Prevents the default markers for start and end points
+        polylineOptions: {
+        strokeColor: 'blue', // Customize the color of the route polyline
+        strokeOpacity: 0.7,   // Set opacity for the route polyline
+        strokeWeight: 5       // Set the thickness of the route polyline
+      }
+    });
+    var request = {
+      origin: locations[0],
+      destination: locations[1],
+      travelMode: 'DRIVING'
+    };
+    directionsService.route(request, function(result, status) {
+      if (status == 'OK') {
+        directionsRenderer.setDirections(result);
+      }
+    });
+  } else {
+    const shape = {
+      coords: [1, 1, 1, 20, 18, 20, 18, 1],
+      type: "poly",
+    };
+    for (let i = 0; i < workshopArray.length; i++) {
+      const lat = workshopArray[i].Technician.location.x;
+      const lng = workshopArray[i].Technician.location.y;
+      new google.maps.Marker({
+        position: { lat: lat, lng: lng },
+        map,
+        icon: {
+          url: '../Assets/Icons/workshop-icon.png', // Custom workshop icon
+          scaledSize: workshopIconSize // Set the custom icon size for workshop
+        },
+        shape: shape,
+      });
+    }
+    new google.maps.Marker({
+      position: { lat: userArray.request.location.x, lng: userArray.request.location.y },
+      map,
+      icon: {
+        url: '../Assets/Icons/Driver-icon.png', // Custom driver icon
+        scaledSize: driverIconSize // Set the custom icon size for driver
+      }
+    });
+  }
+}
+window.initMap = initMap;
+
+  </script>
+<script src="https://maps.googleapis.com/maps/api/js?key=yourAPIKEY&callback=initMap&v=weekly"defer></script>
+
+  </body>
+  </html>

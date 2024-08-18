@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="Style/TechSignUp.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/>
+    <link rel="stylesheet" href="Style/Log-SignResponsive.css">
+
+    <title>Sign up as a Technician</title>
+    <style>
+        .password-requirements {
+            display: none;
+            border: 1px solid #ccc;
+            background-color: #f9f9f9;
+            padding: 10px;
+            margin-top: 5px;
+            border-radius: 5px;
+        }
+        .password-requirements p {
+            margin: 0;
+            padding: 0;
+        }
+        .password-requirements .valid {
+            color: green;
+        }
+        .password-requirements .invalid {
+            color: red;
+        }
+        .password-requirements.show {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+   <div class="SignupTec">
+        
+    <form action="/TechnicianSignup" method="post" name="MainForm">   
+     <a href="/"><img src="Assets/Logo/Blue1.png" class="logo-transparent1" style="margin-left: 30px; margin-bottom: 5px;"></a>
+     <br>
+        <h1>Sign up as a Technician</h1>
+        <label><i class='bx bx-user'></i> WorkShop Name</label>
+        <input type="text" class="input-Text1" placeholder="First Name" name="Un" required>
+
+        <label for="floatingInput"><i class='bx bx-envelope'></i> Email address</label>
+        <input type="email" class="input-Text1" id="floatingInput" placeholder="name@example.com" name="Ea" required>
+
+        <label for="password"><i class='bx bx-envelope'></i> Password</label>
+        <div class="pass-div">
+            <input type="password" class="input-Text-pass1" id="password" placeholder="Password" name="Ps" required>
+            <i class='bx bx-hide toggle-password' id="togglePassword"></i>
+        </div>
+        <div id="passwordRequirements" class="password-requirements">
+            <p id="length" class="invalid">At least 8 characters long</p>
+            <p id="uppercase" class="invalid">At least one uppercase letter</p>
+            <p id="lowercase" class="invalid">At least one lowercase letter</p>
+            <p id="number" class="invalid">At least one number</p>
+            <p id="special" class="invalid">At least one special character</p>
+        </div>
+
+        <label for="confirmPassword"><i class='bx bx-envelope'></i> Confirm Password</label>
+        <div class="pass-div">
+            <input type="password" class="input-Text-pass1" id="confirmPassword" placeholder="Confirm Password" name="Cp" required>
+            <i class='bx bx-hide toggle-password' id="toggleConfirmPassword"></i>
+        </div>
+        <div id="confirmMessage" class="invalid"></div>
+
+        <label for="floatingPassword"><i class='bx bx-phone'></i> Phone Number</label>
+        <input type="tel" class="input-Text1" id="floatingPassword" placeholder="Phone Number" name="Pn" required>
+               
+        <label><i class='bx bx-briefcase'></i> Experience</label>
+        <select id="volumeSelector" class="input-Text1" aria-placeholder="0" name="YoE" required>
+            <option value="1-2">1-2</option>
+            <option value="2">3-5</option>
+            <option value="3">6-9</option>
+            <option value="4">+10</option>
+        </select>
+
+        <label><i class='bx bx-certification'></i> Certifications</label>
+        <select id="volumeSelector" class="form-control input-Text1" aria-placeholder="0" name="Cer" required>
+            <option value="diploma">diploma</option>
+            <option value="W-E">Work Experience</option>
+            <option value="both">both</option>
+        </select>
+        <% if (typeof er !== 'undefined' && er !== null && er !== '') { %>
+            <p class="Error-text"><%= er %></p>
+        <% } %>
+        <button class="Tech-button" type="submit">Sign Up</button>
+        <div class="register-link">
+            <p>already have an account?
+            <a href="/TechnicianLogin">Login</a></p>
+        </div>
+    </form>
+</div>
+<script>
+    //show password or hide it 
+    document.getElementById('togglePassword').addEventListener('click', function (e) {
+        const password = document.getElementById('password');
+        const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
+        password.setAttribute('type', type);
+        this.classList.toggle('bx-show');
+        this.classList.toggle('bx-hide');
+    });
+
+    document.getElementById('toggleConfirmPassword').addEventListener('click', function (e) {
+        const confirmPassword = document.getElementById('confirmPassword');
+        const type = confirmPassword.getAttribute('type') === 'password' ? 'text' : 'password';
+        confirmPassword.setAttribute('type', type);
+        this.classList.toggle('bx-show');
+        this.classList.toggle('bx-hide');
+    });
+
+    // Toggle password requirements box
+    document.getElementById('password').addEventListener('focus', function (e) {
+        document.getElementById('passwordRequirements').classList.add('show');
+    });
+
+    document.getElementById('password').addEventListener('blur', function (e) {
+        document.getElementById('passwordRequirements').classList.remove('show');
+    });
+
+    // password input validator 
+    const password = document.getElementById('password');
+    const confirmPassword = document.getElementById('confirmPassword');
+    const passwordRequirements = document.getElementById('passwordRequirements');
+    const confirmMessage = document.getElementById('confirmMessage');
+
+    const lengthRequirement = document.getElementById('length');
+    const uppercaseRequirement = document.getElementById('uppercase');
+    const lowercaseRequirement = document.getElementById('lowercase');
+    const numberRequirement = document.getElementById('number');
+    const specialRequirement = document.getElementById('special');
+
+    const passwordCriteria = {
+        length: /.{8,}/,
+        uppercase: /[A-Z]/,
+        lowercase: /[a-z]/,
+        number: /[0-9]/,
+        special: /[!@#$%^&*(),.?":{}|<>]/
+    };
+
+    function validatePassword() {
+        const value = password.value;
+        lengthRequirement.className = passwordCriteria.length.test(value) ? 'valid' : 'invalid';
+        uppercaseRequirement.className = passwordCriteria.uppercase.test(value) ? 'valid' : 'invalid';
+        lowercaseRequirement.className = passwordCriteria.lowercase.test(value) ? 'valid' : 'invalid';
+        numberRequirement.className = passwordCriteria.number.test(value) ? 'valid' : 'invalid';
+        specialRequirement.className = passwordCriteria.special.test(value) ? 'valid' : 'invalid';
+
+        validateConfirmPassword();
+    }
+
+    function validateConfirmPassword() {
+        if (confirmPassword.value === password.value) {
+            confirmMessage.textContent = "Passwords match.";
+            confirmMessage.className = 'valid';
+        } else {
+            confirmMessage.textContent = "Passwords do not match.";
+            confirmMessage.className = 'invalid';
+        }
+    }
+
+    password.addEventListener('input', validatePassword);
+    confirmPassword.addEventListener('input', validateConfirmPassword);
+
+</script>
+</body>
+</html>

@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NearME</title>
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="../Style/ReqSer-btn-All.css">
+    <link rel="stylesheet" href="../Style/Services.css">
+    <link rel="stylesheet" href="../Style/swiper-bundle.min.css">
+    <link rel="stylesheet" href="../Style/DriverReqResponsive.css">
+    <style>
+        /* Loader Wrapper */
+     #loader-wrapper {
+       position: fixed;
+       top: 0;
+       left: 0;
+       width: 100%;
+       height: 100%;
+       z-index: 1034;
+       background-color: transparent;
+       visibility: visible;
+       transition: all 2s 4s ease-out;
+     }
+  
+     /* Loader */
+     #loader {
+       display: block;
+       position: relative;
+       left: 50%;
+       top: 50%;
+       width: 150px;
+       height: 150px;
+       margin: -75px 0 0 -75px;
+       border-radius: 50%;
+       border: 3px solid transparent;
+       border-top-color: #06b2fa;
+       animation: spin 1s linear infinite;
+       z-index: 1034;
+     }
+  
+     #loader:before,
+     #loader:after {
+       content: "";
+       position: absolute;
+       border-radius: 50%;
+       border: 3px solid transparent;
+     }
+  
+     #loader:before {
+       top: 5px;
+       left: 5px;
+       right: 5px;
+       bottom: 5px;
+       border-top-color: #fff;
+       animation: spin 2s linear infinite;
+     }
+  
+     #loader:after {
+       top: 15px;
+       left: 15px;
+       right: 15px;
+       bottom: 15px;
+       border-top-color: #0897f3;
+       animation: spin 1.5s linear infinite;
+     }
+  
+     @keyframes spin {
+       0% {
+         transform: rotate(0deg);
+       }
+       100% {
+         transform: rotate(360deg);
+       }
+     }
+  
+     /* Loader Sections */
+     .loader-section {
+       position: fixed;
+       top: 0;
+       width: 50%;
+       height: 100%;
+       background: transparent;
+       z-index: 1032;
+       transition: all 0.7s 0.7s cubic-bezier(0.645, 0.045, 0.355, 1);
+     }
+  
+     .loader-section.section-left {
+       left: 0;
+     }
+  
+     .loader-section.section-right {
+       right: 0;
+     }
+  
+     /* Loader Wrapper Transition on Loaded */
+     .loaded #loader-wrapper {
+       visibility: hidden;
+       transform: translateY(-100%);
+       transition: all 0.7s 1s ease-out;
+     }
+  
+     /* Loader Transition on Loaded */
+     .loaded #loader {
+       opacity: 0;
+       transition: all 1s ease-out;
+     }
+  
+     /* Loader Sections Transition on Loaded */
+     .loaded .loader-section.section-left {
+       transform: translateX(-100%);
+     }
+  
+     .loaded .loader-section.section-right {
+       transform: translateX(100%);
+     }
+     </style>  
+    <style>
+    #map{  
+        height: 400px;
+        width: 100%;
+        cursor: pointer;
+    }
+    #error-message {
+        margin-top: 10px;
+        font-size: 24px;
+        color: red;
+        display: none;
+        }
+</style>
+</head>
+
+
+<body>
+    
+              <!-- Screen lazy loding  -->
+        <div id="loader-wrapper">
+            <div id="loader"></div>
+            <div class="loader-section section-left"></div>
+            <div class="loader-section section-right"></div>
+        </div>
+        <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+        <script>
+        // Screen Loader
+        document.addEventListener('DOMContentLoaded', function() {
+            document.body.classList.add('loaded');
+        });  
+        </script>
+
+    <!-- DriverHeaderInside -->
+    <%- include('partials/DriverHeaderInside.ejs',{user:user}); -%>
+
+<form id="form" method="post" action="/Driver/RequestService">
+    <div class="containerborder">
+       <section id="Service" class="services-body">
+        <div class="slide-container swiper">
+            <div class="ttt">
+                <h2 class="name1">NearMe Services</h2>
+                <h2 class="name1">Please choose the services you want</h2>
+            </div>
+    
+          <div class="slide-content">
+            <div class="card-wrapper swiper-wrapper">
+            <!-- 1 -->
+             <div class="card swiper-slide">
+                 <div class="image-content ">
+                     <span class="overlay1"></span>
+                     <div class="card-image">
+                            <img src="../Assets/Services-pictures/New/towtruck.png" alt="" class="card-img">
+                     </div>
+                 </div>
+                 <div class="card-content">
+                     <h2 class="name">Towing Truck</h2>
+                     <br>
+                     <p class="description">Wherever you are we are with you, in simple steps and in less than one minute you can request 
+                        car tow (from-to) any direction upon your wish inside AMMAN with the best and lowest price ever:
+                        <ul>
+                            <li class="description" id="content1"><b>15-20JOD</b> morning period.</li>
+                           <li class="description" id="content2"><b>25-30JOD</b> evening period.</li>
+                        </ul>
+                        </p>   
+                        <div class="radio-toolbar">
+                            <input class="" type="radio" id="ser1" name="services" value="1" onclick="scrollToSection('section2')">
+                            <label for="ser1">✔</label>
+                        </div>
+                 </div>
+    
+             </div>
+             <!-- 2 -->
+             <div class="card swiper-slide">
+                 <div class="image-content swiper-wrapper">
+                     <span class="overlay1">
+    
+                     </span>
+                     <div class="card-image">
+                         <img src="../Assets/Services-pictures/New/changetire.jpg" alt="" class="card-img">
+                     </div>
+                 </div>
+                 <div class="card-content">
+                     <h2 class="name">Flat tire</h2><br>
+                     <p class="description">How many times have you left your home and found
+                         your car flat tire needs to change in a hot or cold weather,
+                         or you will be late on your work,
+                         don’t worry we are to help you, request change flat tire through NearMe
+                          application and we will serve you.
+                         </p>
+                        <div class="radio-toolbar">
+                            <input class="" type="radio" id="ser2" name="services" value="2" onclick="scrollToSection('section2')">
+                            <label for="ser2">✔</label>
+                        </div>
+    
+                 </div>
+             </div>
+             <!-- 3 -->
+             <div class="card swiper-slide">
+                 <div class="image-content swiper-wrapper">
+                     <span class="overlay1">
+    
+                     </span>
+                     <div class="card-image">
+                         <img src="../Assets/Services-pictures/New/changeoil.jpg" alt="" class="card-img">
+                     </div>
+                 </div>
+                 <div class="card-content">
+                     <h2 class="name">Change oil</h2><br>
+                     <p class="description">ou can now change your car engine oil and filters,
+                         just select your location through NearME application and ask for oil change service,
+                          we will serve you in a short period of time and you can also make an appointment
+                           for your suitable time.
+                         We will guide you to assure that your car engine at the best performance.           
+                         </p>
+                        <div class="radio-toolbar">
+                            <input type="radio" id="ser3" name="services" value="3" onclick="scrollToSection('section2')">
+                            <label for="ser3">✔</label>
+                        </div>
+                 </div>
+             </div>
+             <!-- 4 -->
+             <div class="card swiper-slide">
+                 <div class="image-content swiper-wrapper">
+                     <span class="overlay1">
+    
+                     </span>
+                     <div class="card-image">
+                         <img src="../Assets/Services-pictures/New/changebattery.jpg" alt="" class="card-img">
+                     </div>
+                 </div>
+                 <div class="card-content">
+                     <h2 class="name">Change & replace battery</h2><br>
+                     <p class="description">All you have to do is choose the battery services icon,
+                         provide your car model and date of manufacture, and we will change
+                          the car battery in the location you previously specified, you can
+                           also request jump start service only or recharge
+                         electric car battery to get you to the nearest power
+                          supply provider.
+                         </p>
+                         <div class="radio-toolbar">
+                            <input type="radio" id="ser4" name="services" value="4" onclick="scrollToSection('section2')">
+                            <label for="ser4">✔</label>
+                        </div>
+                 </div>
+             </div>
+             <!-- 5 -->
+             <div class="card swiper-slide">
+                 <div class="image-content swiper-wrapper">
+                     <span class="overlay1">
+    
+                     </span>
+                     <div class="card-image">
+                         <img src="../Assets/Services-pictures/New/man-wearing-gloves-holding-wrench.jpg" alt="" class="card-img">
+                     </div>
+                 </div>
+                 <div class="card-content">
+                     <h2 class="name">Under hood service</h2><br>
+                     <p class="description">we provide many services that will help under hood problem such as:
+                         <ul>
+                         <li class="description">Air Filter Blower Motor Replacement.</li>
+                         <li class="description">Air Conditioner Filter Replacement.</li>
+                         <li class="description">General maintenance.</li>
+                         </ul>
+                         </p>
+                         <div class="radio-toolbar">
+                            <input type="radio" id="ser5" name="services" value="5" onclick="scrollToSection('section2')">
+                            <label for="ser5">✔</label>
+                        </div>
+                 </div>
+             </div>
+             
+         </div>
+     </div>
+     
+     <div class="swiper-button-next swiper-navBtn "></div>
+     <div class="swiper-button-prev swiper-navBtn"></div>
+     <div class="swiper-pagination"></div>
+     <div id="section2"></div>
+    </div>
+    </section>
+            <br>
+            <br>
+            <br>
+            <h2>Provide us with more information of the problem</h2>
+            
+            <textarea rows="6" cols="10"  id="description" name="description" spellcheck="true" placeholder=" Provide us with some details... (Optional)"></textarea>
+            <div id="error-message">Your description should not be more than 200 characters</div>
+            <br>
+            <br>
+            <br>
+            <!-- map -->
+            <div id="map"></div>
+            <input type="hidden" style="width: 300px;" id="location-input" name="location" value="" readonly>
+
+            <!-- buttons -->
+        <div class="Center-btns">
+            <button class="location-div" onclick="CurrentLocation()" type="button">
+                <i class='bx bx-map'></i>
+                <h1 class="h1q">Get My Current Location</h1>
+                <p id="location"></p>
+            </button>
+
+
+            <button id="mapsCenterBtn" class="Maps-center-btn" type="button" onclick="enableMapClick()">
+                <h1 class="h1q">Set A New Location?</h1>
+           </button>        
+           <button id="setNewLocationBtn" class="Maps-center-btn1" type="button" style="display:none;" onclick="setNewLocation()">
+               <h1 class="h1q">Set This Location</h1>
+           </button>         
+        </div>
+        <button class="Submit" type="submit">Continue</button>
+    </div>
+</form>
+
+
+<script src="../Style/swiper-bundle.min.js"></script>
+<script src="../Style/Services-script.js"></script>
+    <script>
+
+    //disciption error handling 
+    const textarea = document.getElementById('description');
+    const errorMessage = document.getElementById('error-message');
+        textarea.addEventListener('input', () => {
+            if (textarea.value.length >= 201) {
+                errorMessage.style.display = 'block';
+            } 
+            else {
+                errorMessage.style.display = 'none';
+            }
+        });
+
+    // radio button scroll down
+    function scrollToSection(sectionId) {
+        document.getElementById(sectionId).scrollIntoView({ behavior: 'smooth' });
+    }
+    //profile dropdown 
+       function toggleDropdown() {
+      var dropdown = document.getElementById("dropdownContent");
+      dropdown.style.display === "none" ? dropdown.style.display = "block" : dropdown.style.display = "none";
+    }
+
+    document.addEventListener("click", function(event) {
+     var dropdown = document.getElementById("dropdownContent");
+     var profilePicture = document.querySelector(".profile-picture");
+      if (!profilePicture.contains(event.target) && !dropdown.contains(event.target)) {
+           dropdown.style.display = "none";
+    }
+    });
+
+    function toggleDropdown1() {
+      var dropdown = document.getElementById("dropdownContent1");
+      dropdown.style.display === "none" ? dropdown.style.display = "block" : dropdown.style.display = "none";
+    }
+
+    document.addEventListener("click", function(event) {
+     var dropdown = document.getElementById("dropdownContent1");
+     var profilePicture = document.querySelector(".profile-picture1");
+      if (!profilePicture.contains(event.target) && !dropdown.contains(event.target)) {
+           dropdown.style.display = "none";
+    }
+    });
+    //profile dropdown end 
+
+
+        //sidebar
+        function showSidebar(){
+          const sidebar = document.querySelector('.sidebar')
+          sidebar.style.display = 'flex'
+        }
+        function hideSidebar(){
+          const sidebar = document.querySelector('.sidebar')
+          sidebar.style.display = 'none'
+        }
+        //end sidebar
+        
+        
+        //Location button
+        var map, marker;
+        
+        const locationInput = document.getElementById("location-input");
+        const ErrorMessage = document.getElementById("location");   
+        function initMap() {
+            const initialLocation = { lat: 31.963158, lng: 35.930359 };
+            map = new google.maps.Map(document.getElementById("map"), {
+                center: initialLocation,
+                zoom: 13,
+                disableDefaultUI: true
+            });
+           
+    }
+        function CurrentLocation() {
+            if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(function (position) {
+            const lat = position.coords.latitude;
+            const lng = position.coords.longitude;
+
+            // Update hidden input with the current location
+            locationInput.value = lat + "," + lng;
+
+            const userLocation = { lat: lat, lng: lng };
+
+            // Center the map on the user's location
+            map.setCenter(userLocation);
+
+            // If marker already exists, update its position
+            if (marker) {
+                marker.setPosition(userLocation);
+                
+            } else {
+                // Create a new marker if it doesn't exist
+                marker = new google.maps.Marker({
+                    position: userLocation,
+                    map: map,
+                    icon: '../Assets/Icons/Driver.png', // Optional: Use a custom icon for the marker
+                    title: 'Your Location'
+                });
+                
+                    //button check-mark 
+                    var button = document.querySelector('.location-div'); // Select the button element
+                    button.classList.toggle('checked'); // Toggle the 'checked' class on the button
+                    
+                    
+                    var zoomLevel = 15; // Adjust the zoom level as per your requirement
+                    map.setZoom(zoomLevel);
+                    map.panTo(userLocation);
+            }
+        }, function () {
+            locationStatus.textContent = "Unable to retrieve location.";
+            Alarm("Unable to retrieve location.");
+        });
+    } else {
+        Alarm("Geolocation is not supported by this browser.");
+        ErrorMessage.innerHTML = "Geolocation is not supported by this browser.";
+    }
+}
+
+
+function enableMapClick() {
+        map.addListener('click', function(event) {
+            placeMarker(event.latLng);
+        });
+        document.getElementById("setNewLocationBtn").style.display = "block";
+        map.getDiv().style.cursor = 'pointer';  // Change cursor to pointer
+    }
+
+    function placeMarker(location) {
+        if (marker) {
+            marker.setPosition(location);
+        } else {
+            marker = new google.maps.Marker({
+                position: location,
+                map: map,
+                icon: '../Assets/Icons/Driver.png',
+                title: 'New Location'
+            });
+        }
+        locationInput.value = location.lat() + "," + location.lng();
+        map.setCenter(location);
+    }
+
+    function setNewLocation() {
+        if (marker) {
+            const newLocation = marker.getPosition();
+            locationInput.value = newLocation.lat() + "," + newLocation.lng();
+            map.setCenter(newLocation);
+            document.getElementById("setNewLocationBtn").style.display = "none";
+            map.getDiv().style.cursor = '';  // Reset cursor
+        }
+    }
+
+        window.initMap = initMap;
+    </script>
+<script src="https://maps.googleapis.com/maps/api/js?key=yourAPIKEY&callback=initMap&v=weekly"defer></script>
+
+</body>
+</html>

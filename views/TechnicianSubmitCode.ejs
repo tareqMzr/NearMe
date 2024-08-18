@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Submit Code</title>
+  <link rel="stylesheet" href="Style/SubmitCode.css">
+</head>
+<body>
+
+  <div class="Maindiv">
+    <div class="flex-col">
+      <a href="/"><img src="Assets/Logo/Blue1.png" class="logo-transparent-login" alt="Logo"></a>
+      <h1>Submit Your Code</h1>
+      <form class="flex-col" action="/TechnicianForgetPasswordCode?token=<%= token %>" method="POST">
+        <div class="flex-col2">
+          <label class="lable-text" for="code">Please enter the 6-character code:</label><br>
+          <input class="input-Text" type="text" name="code" id="code" title="Enter your code here" required>
+        </div>
+        <% if(typeof err !== 'undefined' && err !== null && err !== ''){ %>
+          <p class="error-message" id="errorMessage"> <%= err %> </p>
+          <% } %>
+        <button type="submit">Submit</button>
+      </form>
+    </div>
+  </div>
+</body>
+</html>
+
+
